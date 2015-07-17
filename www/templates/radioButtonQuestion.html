@@ -1,0 +1,18 @@
+<div ui-content-for="title">
+  <span ng-bind-html="question"></span>
+</div>
+
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div class="section">
+
+     <p ng-bind-html="question"></p>
+     
+ 
+ 	<div ng-repeat="(keyrep, valuerep) in reponses"> 
+		<input type="radio" name="{{qid}}" value="{{keyrep}}" id="{{keyrep}}"><label for="{{keyrep}}" ng-bind-html="valuerep"></label>
+	</div>
+ 	<button class="btn btn-primary" ng-click="nextQuiz($event)">Next</button>
+    </div>
+  </div>
+</div>
