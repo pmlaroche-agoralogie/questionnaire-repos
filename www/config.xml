@@ -6,10 +6,10 @@
         id        = "fr.agoralogie.multicollectenvironnementpremium"
         version   = "0.4.0">
 
-    <name>SmartTOC</name>
+    <name>QuestionnaireRepos</name>
 
     <description>
-        SmartTOC : outil mobile pour mesurer ses TOC 
+        Questionnaire Repos 
     </description>
 
     <author href="http://www.agoralogie.fr" email="philippe.laroche@agoralogie.fr">
