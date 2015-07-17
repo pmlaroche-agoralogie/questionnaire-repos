@@ -225,24 +225,38 @@ function test(callback,value){
 function displayQuestionTemplate($sanitize,$scope,$location,$route,res,current){
 	console.log(current);
 	console.log(res);
-	console.log(res.rows[current]);
+	console.log(JSON.stringify(res));
+	console.log(res.rows.item(current));
+	console.log("qtype");
+	console.log(res.rows.item(current).qtype);
+	console.log("qtype ?");
+	
 	//test template
-	$location.path('/radioButtonQuestion'); 
-	$route.reload();
-	$scope.question = res.rows[current].question;
-	$scope.qid = res.rows[current].qid;
-	$scope.reponses = JSON.parse(decodeURI(res.rows[current].answers));
+	if (res.rows.item(current).qtype == "N")
+	{
+		//console.log(res.rows.item(current)['qhelp-question_config']);
+		qhelp = getQuestionConfig(res.rows.item(current)['qhelp-question_config'])
+		if (qhelp.tpl=="radio")
+		{
+			$location.path('/radioButtonQuestion'); 
+			$route.reload();
+		}
+	}
+	
+	$scope.question = res.rows.item(current).question;
+	$scope.qid = res.rows.item(current).qid;
+	$scope.reponses = JSON.parse(decodeURI(res.rows.item(current).answers));
 	
 	$scope.nextQuiz = function(clickEvent){
 		//save
 		console.log("save");
-		console.log($("input[name="+res.rows[current].qid+"]:checked").attr("value"));
-		rep = $("input[name="+res.rows[current].qid+"]:checked").attr("value");
+		console.log($("input[name="+res.rows.item(current).qid+"]:checked").attr("value"));
+		rep = $("input[name="+res.rows.item(current).qid+"]:checked").attr("value");
 		var timestamp = Math.round(new Date().getTime() / 1000);
 		db.transaction(function(tx) 
 				{
 						//tx.executeSql('INSERT INTO "reponses" (sid, reponse) VALUES ("useOK","'+resultForm+'");
-						tx.executeSql('INSERT INTO "reponses" (sid, gid,qid, reponse,tsreponse) VALUES ("'+res.rows[current].sid+'","'+res.rows[current].gid+'","'+res.rows[current].qid+'","'+rep+'","'+timestamp+'");', [], function(tx, res) {});//insert
+						tx.executeSql('INSERT INTO "reponses" (sid, gid,qid, reponse,tsreponse) VALUES ("'+res.rows.item(current).sid+'","'+res.rows.item(current).gid+'","'+res.rows.item(current).qid+'","'+rep+'","'+timestamp+'");', [], function(tx, res) {});//insert
 				});//Transaction
 
 		
@@ -256,12 +270,31 @@ function displayQuestionTemplate($sanitize,$scope,$location,$route,res,current){
 	}
 }
 
-function getQuestionConfig(question)
+function getSurveyConfig()
 {
 	var config = {};
-	var strSurveyConfig = question.help;
+	var strSurveyConfig = surveys_languagesettings[0].surveyls_description;
 	//alert(surveys_languagesettings[0].surveyls_description);
 	var line = strSurveyConfig.split("#");
+	for (var linekey in line)
+	{
+		line2 = line[linekey].split(":");
+		if (line2[0]!= "")
+		{
+			line20=line2[0];
+			line21=line2[1];
+			config[line20] = line21;
+		}
+	}
+	return config;
+}
+
+function getQuestionConfig(qhelp)
+{
+	var config = {};
+	//var strSurveyConfig = question.help;
+	//alert(surveys_languagesettings[0].surveyls_description);
+	var line = qhelp.split("#");
 	for (var linekey in line)
 	{
 		line2 = line[linekey].split(":");

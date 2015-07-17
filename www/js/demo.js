@@ -225,7 +225,12 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 			   						{
 			   							
 		   							}*/
-		   			 				console.log(res);
+		   			 				console.log(JSON.stringify(res));
+		   			 				console.log(res.rows.length);
+		   			 				//console.log("version1 "+res.rows[0].qtype);
+		   			 				//console.log("version2 "+res.rows['0'].qtype);
+		   			 				var i=0;
+		   			 				console.log("version3 "+res.rows.item(i).qtype);
 		   			 				displayQuestionTemplate($sanitize,$scope,$location,$route,res,0);
 		   						});//select
 	   			 			});//transaction
