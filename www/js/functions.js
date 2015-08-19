@@ -6,9 +6,13 @@ var async = require('../dist/js/async.js');
 //DB common
 function errorHandler(tx, error) {
     console.log("Error: " + error.message);
+    if (debug)
+    	alert("Error: " + error.message);
 }
 function successHandler(tx, result) {
     console.log("Success: " + result);
+    if (debug)
+    	alert("Success: " + result);
 }
 
 // DB init
@@ -94,11 +98,18 @@ function createQuestionnairesSuccess(callback){
 		      if (req.readyState == 4) {
 		         if(req.status == 200)
 		        	 {console.log("200000!!!!");
+		        	 if (debug)
+		        	    	alert("200000!!!!");
 		        	 res = req.responseText;
 		        	 insertQuestionnaire(res,callback);
 		        	 }
 		         else
+		        	 {
 		        	 console.log("Erreur pendant le chargement de la page.\n");
+		        	 if (debug)
+		        	    	alert("Erreur pendant le chargement de la page.\n");
+		        	 }
+		        	 
 		      }
 		    };
 		    req.send(null);
@@ -106,18 +117,22 @@ function createQuestionnairesSuccess(callback){
 		
 	
 	console.log("dbquest");
+	if (debug)
+    	alert("dbquest");
 	//callback();
 };
 function createQuestionnairesError(tx, error) {
     console.log("createQuestionnairesError: " + error.message);
-    alert("createQuestionnairesError: " + error.message);
+    if (debug)
+    	alert("createQuestionnairesError: " + error.message);
 }
 function readQuestionnairesSuccess(fileEntry,callback) {
 	fileEntry.file(function(file) {
 		var reader = new FileReader();
 		reader.onloadend = function(e) {
 			console.log(' reader');
-			alert(' reader');
+			if (debug)
+				alert(' reader');
 			res = this.result;
 			insertQuestionnaire(res,callback);
 		}
@@ -126,7 +141,11 @@ function readQuestionnairesSuccess(fileEntry,callback) {
 }
 function readQuestionnairesFail(e) {
 	console.log("FileSystem Error");
+	if (debug)
+		alert("FileSystem Error");
 	console.dir(e);
+	if (debug)
+		alert(e);
 }
 function insertQuestionnaire(res,callback){
 	db.transaction(function(tx) {
@@ -160,6 +179,8 @@ function insertQuestionnaire(res,callback){
 //Functions after_init
 function after_init(){
 	console.log('after_init');
+	if (debug)
+		alert('after_init');
 	if (MC_UseOk)
 	{
 		console.log('MC_UseOk');
@@ -226,6 +247,10 @@ function test(callback,value){
 
 function displayQuestionTemplate($sanitize,$scope,$location,$route,res,current){
 	console.log(current);
+	if (debug)
+		alert('displayQuestionTemplate');
+	if (debug)
+		alert(current);
 	console.log(res);
 	console.log(JSON.stringify(res));
 	console.log(res.rows.item(current));

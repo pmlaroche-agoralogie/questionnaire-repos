@@ -1,3 +1,5 @@
+var debug = true;
+
 // 
 // Here is how to define your module 
 // has dependent on mobile-angular-ui
@@ -201,7 +203,8 @@ function alertDismissed() {
 app.controller('MainController', function(cordovaReady,$rootScope, $scope,$location,$route,$sanitize){
 	
 	console.log('main');
-	alert('main');
+	if (debug)
+		alert('main');
 
 	 async.series([	
 	               		function(callback){ cordovaReady(callback);},
@@ -220,8 +223,12 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	               		function(err, results ){
 		 					
 	   			 			console.log(results);
+	   			 			/*if (debug)
+	   			 				alert(results);*/
 	   			 			$scope.startQuiz = function(clickEvent){
 	   			 			console.log("start");
+	   			 			if (debug)
+	   			 				alert("start");
 	   			 			db.transaction(function(tx) {
 		   			 			tx.executeSql('SELECT * FROM "questionnaires";', [], function(tx, res) {
 			   						/*if (res.rows.item(0).cnt < 1)
@@ -229,11 +236,17 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 			   							
 		   							}*/
 		   			 				console.log(JSON.stringify(res));
+		   			 				if (debug)
+		   			 					alert(JSON.stringify(res));
 		   			 				console.log(res.rows.length);
+		   			 				if (debug)
+		   			 					alert(res.rows.length);
 		   			 				//console.log("version1 "+res.rows[0].qtype);
 		   			 				//console.log("version2 "+res.rows['0'].qtype);
 		   			 				var i=0;
 		   			 				console.log("version3 "+res.rows.item(i).qtype);
+		   			 				if (debug)
+		   			 					alert("version3 "+res.rows.item(i).qtype);
 		   			 				displayQuestionTemplate($sanitize,$scope,$location,$route,res,0);
 		   						});//select
 	   			 			});//transaction
@@ -483,6 +496,8 @@ app.controller('ChartsCtrl', function($scope, $filter, Questions, Charts) {
 		var questionList = "";
 		$( "input:checked").each(function( index ) {
 			  console.log( index + ": " + $( this ).attr('id') );
+			  if (debug)
+	 					alert( index + ": " + $( this ).attr('id') );
 			 // console.log($("input:checked"));
 			  var str = $( this ).attr('id');
 			  var res = str.split("X");
@@ -548,6 +563,8 @@ angular.module('Cordova', [])
     if (typeof window.cordova === 'object') {
       document.addEventListener('deviceready', function () {
     	  console.log('cordovaready');
+    	  if (debug)
+				alert( 'cordovaready');
        // done();
     	  done(null,'cordoveaok');
       }, false);
