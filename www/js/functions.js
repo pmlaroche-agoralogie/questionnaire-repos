@@ -110,12 +110,14 @@ function createQuestionnairesSuccess(callback){
 };
 function createQuestionnairesError(tx, error) {
     console.log("createQuestionnairesError: " + error.message);
+    alert("createQuestionnairesError: " + error.message);
 }
 function readQuestionnairesSuccess(fileEntry,callback) {
 	fileEntry.file(function(file) {
 		var reader = new FileReader();
 		reader.onloadend = function(e) {
 			console.log(' reader');
+			alert(' reader');
 			res = this.result;
 			insertQuestionnaire(res,callback);
 		}
