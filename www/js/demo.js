@@ -204,7 +204,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	
 	console.log('main');
 	if (debug)
-		alert('main');
+		alert('maindd');
 
 	 async.series([	
 	               		function(callback){ cordovaReady(callback);},

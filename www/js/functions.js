@@ -114,11 +114,19 @@ function createQuestionnairesSuccess(callback){
 		        	 insertQuestionnaire(res,callback);
 		        	 }
 		         else
-		        	 {
+		        {
 		        	 console.log("Erreur pendant le chargement de la page.\n");
 		        	 if (debug)
 		        	    	alert("Erreur pendant le chargement de la page.\n");
-		        	 }
+		        	 if(isMobile)
+		        	{
+		        		 //cas iphone
+		        		 store = cordova.file.applicationDirectory;
+		        		 fileName = "www/db/questionnaires.txt";
+		        		 window.resolveLocalFileSystemURL(store + fileName, function(fileEntry){readQuestionnairesSuccess(fileEntry,callback) }, readQuestionnairesFail);
+		        			
+		        	}
+		        }
 		        	 
 		      }
 		    };
