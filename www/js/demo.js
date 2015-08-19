@@ -201,6 +201,7 @@ function alertDismissed() {
 app.controller('MainController', function(cordovaReady,$rootScope, $scope,$location,$route,$sanitize){
 	
 	console.log('main');
+	alert('main');
 
 	 async.series([	
 	               		function(callback){ cordovaReady(callback);},
