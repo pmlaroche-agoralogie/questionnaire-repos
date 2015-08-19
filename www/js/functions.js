@@ -150,7 +150,7 @@ function readQuestionnairesFail(e) {
 		alert("FileSystem Error");
 	console.dir(e);
 	if (debug)
-		alert(e);
+		alert(JSON.stringify(e)));
 }
 function insertQuestionnaire(res,callback){
 	db.transaction(function(tx) {
