@@ -85,6 +85,11 @@ function createQuestionnairesSuccess(callback){
 	if(isMobile)
 	{
 		store = cordova.file.applicationDirectory;
+		if (debug)
+			{
+		alert('store');
+		alert(store);
+			}
 		fileName = "www/db/questionnaires.txt";
 		//window.resolveLocalFileSystemURL(store + fileName, readQuestionnairesSuccess, readQuestionnairesFail);
 		window.resolveLocalFileSystemURL(store + fileName, function(fileEntry){readQuestionnairesSuccess(fileEntry,callback) }, readQuestionnairesFail);
