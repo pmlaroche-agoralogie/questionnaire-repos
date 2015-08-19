@@ -82,8 +82,8 @@ function createTableReponses(callback)
 
 //function createQuestionnairesSuccess(tx, result){
 function createQuestionnairesSuccess(callback){
-	if(isMobile)
-	{
+	/*if(isMobile)
+	{*/
 	/*	store = cordova.file.applicationDirectory;
 		if (debug)
 			{
@@ -94,16 +94,16 @@ function createQuestionnairesSuccess(callback){
 		//window.resolveLocalFileSystemURL(store + fileName, readQuestionnairesSuccess, readQuestionnairesFail);
 		window.resolveLocalFileSystemURL(store + fileName, function(fileEntry){readQuestionnairesSuccess(fileEntry,callback) }, readQuestionnairesFail);
 		//callback(null,'ok');*/
-		store = cordova.file.applicationDirectory;
+/*		store = cordova.file.applicationDirectory;
 		fileName = "www/db/questionnaires.txt";
 		var req = new XMLHttpRequest();
 	    req.open('GET', store + fileName, true);
 	}
 	else
-	{    
+	{   */ 
 		    var req = new XMLHttpRequest();
 		    req.open('GET', '../www/db/questionnaires.txt', true);
-	}
+	//}
 		    req.onreadystatechange = function (aEvt) {
 		      if (req.readyState == 4) {
 		         if(req.status == 200)
