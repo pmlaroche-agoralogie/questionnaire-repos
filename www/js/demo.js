@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 
 // 
 // Here is how to define your module 
