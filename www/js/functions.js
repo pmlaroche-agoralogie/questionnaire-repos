@@ -178,7 +178,16 @@ function getQuestionsByGroupe($scope,current,callback)
 	db.transaction(function(tx) {
 		tx.executeSql('SELECT * FROM "questionnaires" WHERE id = '+current+';', [], function(tx, res) {
 			console.log('question');
-			console.log(res.rows);
+			//console.log(res);
+			//if (res.rows.item(0).cnt < 1)
+			if (res.rows.length < 1)
+			{
+				console.log('fin');
+				$scope.quiz.actif = 'fin';
+			}
+			else
+				
+			{
 				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {			
 					var groupes = {}
 					var next = 0;
@@ -193,11 +202,12 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.actif = true;
 					
 				}); //SELECT GROUPE
-			});//select
-		},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
-		//});//DB transaction
+			}
+		});//select
+	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
+	//});//DB transaction
 	
-	}
+}
 
 function displayQuestionTemplate($scope,current){
 	console.log(current);

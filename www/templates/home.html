@@ -7,10 +7,11 @@
         </h1>
       </div>
       <div class="list-group-item list-group-item-home media">
-        <div>
-          <i class="fa fa-gamepad feature-icon text-primary"></i>
-        </div>
+        
          <div ng-if="quiz.actif === undefined || quiz.actif == false">
+	         <div>
+	          <i class="fa fa-gamepad feature-icon text-primary"></i>
+	        </div>
 	        <div class="media-body">
 	            <h3 class="media-heading">Start Quiz</h3>
 	            <button class="btn btn-primary" ng-click="startQuiz($event)">Start</button>
@@ -24,6 +25,11 @@
 			  toto
 			</groupe>
 			<button class="btn btn-primary" ng-click="nextQuiz($event)">Next</button>
+	 	</div>
+	 	<div ng-if="quiz.actif == 'fin'">
+
+	       Fin
+			<button class="btn btn-primary" ng-click="finQuiz($event)">Fin</button>
 	 	</div>
         
       </div>
