@@ -1,4 +1,4 @@
-var debug = true;
+var debug = false;
 
 // 
 // Here is how to define your module 
@@ -29,7 +29,7 @@ var app = angular.module('MobileAngularUiExamples', [
 // 
 app.config(function($routeProvider) {
   $routeProvider.when('/',              {templateUrl: 'templates/home.html', reloadOnSearch: false});
-  $routeProvider.when('/scroll',        {templateUrl: 'templates/scroll.html', reloadOnSearch: false}); 
+ /* $routeProvider.when('/scroll',        {templateUrl: 'templates/scroll.html', reloadOnSearch: false}); 
   $routeProvider.when('/toggle',        {templateUrl: 'templates/toggle.html', reloadOnSearch: false}); 
   $routeProvider.when('/tabs',          {templateUrl: 'templates/tabs.html', reloadOnSearch: false}); 
   $routeProvider.when('/accordion',     {templateUrl: 'templates/accordion.html', reloadOnSearch: false}); 
@@ -40,7 +40,7 @@ app.config(function($routeProvider) {
   $routeProvider.when('/carousel',      {templateUrl: 'templates/carousel.html', reloadOnSearch: false});
   $routeProvider.when('/useok',      	{templateUrl: 'templates/useok.html', reloadOnSearch: false});
   $routeProvider.when('/tab-charts',    {templateUrl: 'templates/tab-charts.html', reloadOnSearch: false});
-  $routeProvider.when('/radioButtonQuestion',    {templateUrl: 'templates/radioButtonQuestion.html', reloadOnSearch: false});
+  $routeProvider.when('/radioButtonQuestion',    {templateUrl: 'templates/radioButtonQuestion.html', reloadOnSearch: false});*/
 
 });
 
@@ -50,7 +50,7 @@ app.config(function($routeProvider) {
 //
 // `$drag` example: drag to dismiss
 //
-app.directive('dragToDismiss', function($drag, $parse, $timeout){
+/*app.directive('dragToDismiss', function($drag, $parse, $timeout){
   return {
     restrict: 'A',
     compile: function(elem, attrs) {
@@ -92,13 +92,13 @@ app.directive('dragToDismiss', function($drag, $parse, $timeout){
       };
     }
   };
-});
+});*/
 
 //
 // Another `$drag` usage example: this is how you could create 
 // a touch enabled "deck of cards" carousel. See `carousel.html` for markup.
 //
-app.directive('carousel', function(){
+/*app.directive('carousel', function(){
   return {
     restrict: 'C',
     scope: {},
@@ -123,9 +123,9 @@ app.directive('carousel', function(){
       };
     }
   };
-});
+});*/
 
-app.directive('carouselItem', function($drag) {
+/*app.directive('carouselItem', function($drag) {
   return {
     restrict: 'C',
     require: '^carousel',
@@ -193,7 +193,7 @@ app.directive('carouselItem', function($drag) {
       });
     }
   };
-});
+});*/
 
 function alertDismissed() {
     // do something
@@ -205,6 +205,9 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	console.log('main');
 	if (debug)
 		alert('maindd');
+	
+	$scope.quiz = {};
+	$scope.quiz.actif = false;
 
 	 async.series([	
 	               		function(callback){ cordovaReady(callback);},
@@ -220,44 +223,19 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 
 	               		],
 	   				 
-	               		function(err, results ){
-		 					
+	               		function(err, results ){		 					
 	   			 			console.log(results);
-	   			 			/*if (debug)
-	   			 				alert(results);*/
-	   			 			$scope.startQuiz = function(clickEvent){
-	   			 			console.log("start");
-	   			 			if (debug)
-	   			 				alert("start");
-	   			 			db.transaction(function(tx) {
-		   			 			tx.executeSql('SELECT * FROM "questionnaires";', [], function(tx, res) {
-			   						/*if (res.rows.item(0).cnt < 1)
-			   						{
-			   							
-		   							}*/
-		   			 				console.log(JSON.stringify(res));
-		   			 				if (debug)
-		   			 					alert(JSON.stringify(res));
-		   			 				console.log(res.rows.length);
-		   			 				if (debug)
-		   			 					alert(res.rows.length);
-		   			 				//console.log("version1 "+res.rows[0].qtype);
-		   			 				//console.log("version2 "+res.rows['0'].qtype);
-		   			 				var i=0;
-		   			 				console.log("version3 "+res.rows.item(i).qtype);
-		   			 				if (debug)
-		   			 					alert("version3 "+res.rows.item(i).qtype);
-		   			 				displayQuestionTemplate($sanitize,$scope,$location,$route,res,0);
-		   						});//select
-	   			 			});//transaction
-	   			 			//$scope.question = 
-	   			 			};
-	   			 			
-
 	   		         }
 	   		 );//fin  async.series
 	 
-		 
+	
+	 
+	 $scope.startQuiz = function(clickEvent){
+ 			console.log("start");
+ 			if (debug)
+ 				alert("start");
+ 			displayQuestionTemplate($scope,1);
+ 			};
 	 
 		 
   // User agent displayed in home page
@@ -366,7 +344,7 @@ $location.path('/scroll');
 });*/
 
 //CHARTS
-app.controller('ChartsCtrl', function($scope, $filter, Questions, Charts) {
+/*app.controller('ChartsCtrl', function($scope, $filter, Questions, Charts) {
 
 	//current date
 	var MyDate = new Date();
@@ -454,7 +432,7 @@ app.controller('ChartsCtrl', function($scope, $filter, Questions, Charts) {
 	    maintainAspectRatio: true
 }*/
 		
-		Charts.all({sid:sid,in:_in.format('YYYY-MM-DD'),out:_out.format('YYYY-MM-DD')}).then(function(response) {
+/*		Charts.all({sid:sid,in:_in.format('YYYY-MM-DD'),out:_out.format('YYYY-MM-DD')}).then(function(response) {
 			q.forEach(function(question,i) {
 				var el = document.getElementById('chart-'+question.key);
 				if (el) {
@@ -554,7 +532,35 @@ app.controller('ChartsCtrl', function($scope, $filter, Questions, Charts) {
 	
 	  });// $scope.$on
 });
+*/
 
+//DYN TEMPLATE
+/**GESTION TEMPLATE DYN **/
+app.directive("groupe", function() {
+	return {
+	    template: '<ng-include src="getTemplateUrl()"/>',
+	    //scope: {},
+    	//transclude: true,
+	    scope: {
+	      groupe: '=data'
+	    },
+	    restrict: 'E',
+	  //  scope: true,
+	    controller: function($scope, $element, $attrs) {
+	      //function used on the ng-include to resolve the template
+	      $scope.getTemplateUrl = function() {
+	    	  console.log('template dyn');
+	        //switch template
+	        if ($scope.groupe.qtype == "N")
+	          //return myLocalized.partials + "tpl_radio.tpl.html";
+	        	return "templates/tpl_radio.tpl.html";
+	        if ($scope.groupe.qtype == "T")
+		          //return myLocalized.partials + "tpl_radio.tpl.html";
+		        	return "templates/tpl_radio2.tpl.html";
+	      }
+	    }
+	  };
+	});
 
 //CORDOVA
 angular.module('Cordova', [])

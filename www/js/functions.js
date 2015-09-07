@@ -263,56 +263,48 @@ function test(callback,value){
 	callback(null, 'test');
 }
 
-function displayQuestionTemplate($sanitize,$scope,$location,$route,res,current){
+function getQuestionsByGroupe($scope,current,callback)
+{
+	db.transaction(function(tx) {
+		tx.executeSql('SELECT * FROM "questionnaires" WHERE id = '+current+';', [], function(tx, res) {
+			console.log('question');
+			console.log(res.rows);
+				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {			
+					var groupes = {}
+					var next = 0;
+					$.each(res2.rows, function(key, groupe){
+						groupes[key] = groupe;
+						next = parseInt(groupe.id) + 1;
+					});
+					$scope.quiz.groupes = groupes;
+					$scope.quiz.next = next;
+					$scope.quiz.actif = true;
+					
+				}); //SELECT GROUPE
+			});//select
+		},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
+		//});//DB transaction
+	
+	}
+
+function displayQuestionTemplate($scope,current){
 	console.log(current);
 	if (debug)
 		alert('displayQuestionTemplate');
 	if (debug)
 		alert(current);
-	console.log(res);
-	console.log(JSON.stringify(res));
-	console.log(res.rows.item(current));
-	console.log("qtype");
-	console.log(res.rows.item(current).qtype);
-	console.log("qtype ?");
 	
-	//test template
-	if (res.rows.item(current).qtype == "N")
-	{
-		//console.log(res.rows.item(current)['qhelp-question_config']);
-		qhelp = getQuestionConfig(res.rows.item(current)['qhelp-question_config'])
-		if (qhelp.tpl=="radio")
-		{
-			$location.path('/radioButtonQuestion'); 
-			$route.reload();
-		}
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
+	],
+		 
+		function(err, results ){		
+		 	//$scope.quiz.actif = true;
+			console.log(results);
+			$scope.$apply(function(){return true});
+			console.log($scope.quiz);
 	}
-	
-	$scope.question = res.rows.item(current).question;
-	$scope.qid = res.rows.item(current).qid;
-	$scope.reponses = JSON.parse(decodeURI(res.rows.item(current).answers));
-	
-	$scope.nextQuiz = function(clickEvent){
-		//save
-		console.log("save");
-		console.log($("input[name="+res.rows.item(current).qid+"]:checked").attr("value"));
-		rep = $("input[name="+res.rows.item(current).qid+"]:checked").attr("value");
-		var timestamp = Math.round(new Date().getTime() / 1000);
-		db.transaction(function(tx) 
-				{
-						//tx.executeSql('INSERT INTO "reponses" (sid, reponse) VALUES ("useOK","'+resultForm+'");
-						tx.executeSql('INSERT INTO "reponses" (sid, gid,qid, reponse,tsreponse) VALUES ("'+res.rows.item(current).sid+'","'+res.rows.item(current).gid+'","'+res.rows.item(current).qid+'","'+rep+'","'+timestamp+'");', [], function(tx, res) {});//insert
-				});//Transaction
+	);//fin  async.series
 
-		
-		if (current+1<res.rows.length)
-			displayQuestionTemplate($sanitize,$scope,$location,$route,res,current+1);
-		else
-		{
-			$location.path('/'); 
-			$route.reload();
-		}
-	}
 }
 
 function getSurveyConfig()

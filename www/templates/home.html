@@ -10,10 +10,21 @@
         <div>
           <i class="fa fa-gamepad feature-icon text-primary"></i>
         </div>
-        <div class="media-body">
-            <h3 class="media-heading">Start Quiz</h3>
-            <button class="btn btn-primary" ng-click="startQuiz($event)">Start</button>
+         <div ng-if="quiz.actif === undefined || quiz.actif == false">
+	        <div class="media-body">
+	            <h3 class="media-heading">Start Quiz</h3>
+	            <button class="btn btn-primary" ng-click="startQuiz($event)">Start</button>
+	        </div>
         </div>
+       
+        <div ng-if="quiz.actif == true">
+	         GROUPE
+	       <groupe ng-repeat="groupe in quiz.groupes" data="groupe">
+			  <!-- Include template dyn -->	
+			  toto
+			</groupe>
+	 	</div>
+        
       </div>
     </div>
 
