@@ -80,30 +80,11 @@ function createTableReponses(callback)
 }
 
 
-//function createQuestionnairesSuccess(tx, result){
 function createQuestionnairesSuccess(callback){
-	/*if(isMobile)
-	{*/
-	/*	store = cordova.file.applicationDirectory;
-		if (debug)
-			{
-		alert('store');
-		alert(store);
-			}
-		fileName = "www/db/questionnaires.txt";
-		//window.resolveLocalFileSystemURL(store + fileName, readQuestionnairesSuccess, readQuestionnairesFail);
-		window.resolveLocalFileSystemURL(store + fileName, function(fileEntry){readQuestionnairesSuccess(fileEntry,callback) }, readQuestionnairesFail);
-		//callback(null,'ok');*/
-/*		store = cordova.file.applicationDirectory;
-		fileName = "www/db/questionnaires.txt";
-		var req = new XMLHttpRequest();
-	    req.open('GET', store + fileName, true);
-	}
-	else
-	{   */ 
+
 		    var req = new XMLHttpRequest();
 		    req.open('GET', '../www/db/questionnaires.txt', true);
-	//}
+
 		    req.onreadystatechange = function (aEvt) {
 		      if (req.readyState == 4) {
 		         if(req.status == 200)
@@ -192,127 +173,60 @@ function insertQuestionnaire(res,callback){
 }
 
 
-
-////////////////////
-//Functions after_init
-function after_init(){
-	console.log('after_init');
-	if (debug)
-		alert('after_init');
-	if (MC_UseOk)
-	{
-		console.log('MC_UseOk');
-		do_MC_UseOk();
-	}
-}
-
-////////////////////
-//Functions MC_UseOk
-
-function do_MC_UseOk(callback,$location,$route){
-	/*$location.path('/scroll'); 
-	 console.log('loc3 '+$location);
-	 console.log('loc3 '+JSON.stringify($location) );*/
-	 
+function getQuestionsByGroupe($scope,current,callback)
+{
+	db.transaction(function(tx) {
+		tx.executeSql('SELECT * FROM "questionnaires" WHERE id = '+current+';', [], function(tx, res) {
+			console.log('question');
+			//console.log(res);
+			//if (res.rows.item(0).cnt < 1)
+			if (res.rows.length < 1)
+			{
+				console.log('fin');
+				$scope.quiz.actif = 'fin';
+			}
+			else
+				
+			{
+				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {			
+					var groupes = {}
+					var next = 0;
+					$.each(res2.rows, function(key, groupe){
+						groupe.config = getQuestionConfig(groupe['qhelp-question_config'])
+						groupe.reponses = JSON.parse(decodeURI(groupe.answers));
+						groupes[key] = groupe;
+						next = parseInt(groupe.id) + 1;
+					});
+					$scope.quiz.groupes = groupes;
+					$scope.quiz.next = next;
+					$scope.quiz.actif = true;
+					
+				}); //SELECT GROUPE
+			}
+		});//select
+	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
+	//});//DB transaction
 	
-	//callback(null,"MC_UseOk_false");
-	
-	if (MC_UseOk)
-	{
-		console.log('MC_UseOk');
-		db.transaction(function(tx) 
-		{
-			(function ($location) { 
-				//tx.executeSql('INSERT INTO "reponses" (sid, reponse) VALUES ("useOK","'+resultForm+'");
-				tx.executeSql('SELECT * FROM "reponses" where sid = "useOK" AND reponse = "ok";', [], function(tx, res) {
-					console.log(res);
-					var dataset = res.rows.length;
-		            if(dataset<1)
-					//if (res.rows.item(0).cnt < 1)
-					{
-						console.log('MC_UseOk:false');
-						//Change path
-						$location.path('/scroll'); 
-						$route.reload();
-						//callback(true,"MC_UseOk_false");
-						//return false;
-					}
-					else
-					{
-						console.log('MC_UseOk:true');
-						callback(null,"MC_UseOk_true");
-						return true;
-					}
-						
-				});//fin select
-			})($location);
-		}); //fin db.transaction
-	}
-	else
-		//ok
-		callback(null,"no_MC_UseOk");
 }
 
-testi = 0;
-function test(callback,value){
-//var test = function(tx,value){
-	testi = testi + 1;
-	console.log(testi);
-	console.log(value);
-	console.log("fin?");
-	callback(null, 'test');
-}
-
-function displayQuestionTemplate($sanitize,$scope,$location,$route,res,current){
+function displayQuestionTemplate($scope,current){
 	console.log(current);
 	if (debug)
 		alert('displayQuestionTemplate');
 	if (debug)
 		alert(current);
-	console.log(res);
-	console.log(JSON.stringify(res));
-	console.log(res.rows.item(current));
-	console.log("qtype");
-	console.log(res.rows.item(current).qtype);
-	console.log("qtype ?");
 	
-	//test template
-	if (res.rows.item(current).qtype == "N")
-	{
-		//console.log(res.rows.item(current)['qhelp-question_config']);
-		qhelp = getQuestionConfig(res.rows.item(current)['qhelp-question_config'])
-		if (qhelp.tpl=="radio")
-		{
-			$location.path('/radioButtonQuestion'); 
-			$route.reload();
-		}
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
+	],
+		 
+		function(err, results ){		
+		 	//$scope.quiz.actif = true;
+			console.log(results);
+			$scope.$apply(function(){return true});
+			console.log($scope.quiz);
 	}
-	
-	$scope.question = res.rows.item(current).question;
-	$scope.qid = res.rows.item(current).qid;
-	$scope.reponses = JSON.parse(decodeURI(res.rows.item(current).answers));
-	
-	$scope.nextQuiz = function(clickEvent){
-		//save
-		console.log("save");
-		console.log($("input[name="+res.rows.item(current).qid+"]:checked").attr("value"));
-		rep = $("input[name="+res.rows.item(current).qid+"]:checked").attr("value");
-		var timestamp = Math.round(new Date().getTime() / 1000);
-		db.transaction(function(tx) 
-				{
-						//tx.executeSql('INSERT INTO "reponses" (sid, reponse) VALUES ("useOK","'+resultForm+'");
-						tx.executeSql('INSERT INTO "reponses" (sid, gid,qid, reponse,tsreponse) VALUES ("'+res.rows.item(current).sid+'","'+res.rows.item(current).gid+'","'+res.rows.item(current).qid+'","'+rep+'","'+timestamp+'");', [], function(tx, res) {});//insert
-				});//Transaction
+	);//fin  async.series
 
-		
-		if (current+1<res.rows.length)
-			displayQuestionTemplate($sanitize,$scope,$location,$route,res,current+1);
-		else
-		{
-			$location.path('/'); 
-			$route.reload();
-		}
-	}
 }
 
 function getSurveyConfig()
