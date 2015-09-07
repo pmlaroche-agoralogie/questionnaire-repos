@@ -80,30 +80,11 @@ function createTableReponses(callback)
 }
 
 
-//function createQuestionnairesSuccess(tx, result){
 function createQuestionnairesSuccess(callback){
-	/*if(isMobile)
-	{*/
-	/*	store = cordova.file.applicationDirectory;
-		if (debug)
-			{
-		alert('store');
-		alert(store);
-			}
-		fileName = "www/db/questionnaires.txt";
-		//window.resolveLocalFileSystemURL(store + fileName, readQuestionnairesSuccess, readQuestionnairesFail);
-		window.resolveLocalFileSystemURL(store + fileName, function(fileEntry){readQuestionnairesSuccess(fileEntry,callback) }, readQuestionnairesFail);
-		//callback(null,'ok');*/
-/*		store = cordova.file.applicationDirectory;
-		fileName = "www/db/questionnaires.txt";
-		var req = new XMLHttpRequest();
-	    req.open('GET', store + fileName, true);
-	}
-	else
-	{   */ 
+
 		    var req = new XMLHttpRequest();
 		    req.open('GET', '../www/db/questionnaires.txt', true);
-	//}
+
 		    req.onreadystatechange = function (aEvt) {
 		      if (req.readyState == 4) {
 		         if(req.status == 200)
@@ -192,77 +173,6 @@ function insertQuestionnaire(res,callback){
 }
 
 
-
-////////////////////
-//Functions after_init
-function after_init(){
-	console.log('after_init');
-	if (debug)
-		alert('after_init');
-	if (MC_UseOk)
-	{
-		console.log('MC_UseOk');
-		do_MC_UseOk();
-	}
-}
-
-////////////////////
-//Functions MC_UseOk
-
-function do_MC_UseOk(callback,$location,$route){
-	/*$location.path('/scroll'); 
-	 console.log('loc3 '+$location);
-	 console.log('loc3 '+JSON.stringify($location) );*/
-	 
-	
-	//callback(null,"MC_UseOk_false");
-	
-	if (MC_UseOk)
-	{
-		console.log('MC_UseOk');
-		db.transaction(function(tx) 
-		{
-			(function ($location) { 
-				//tx.executeSql('INSERT INTO "reponses" (sid, reponse) VALUES ("useOK","'+resultForm+'");
-				tx.executeSql('SELECT * FROM "reponses" where sid = "useOK" AND reponse = "ok";', [], function(tx, res) {
-					console.log(res);
-					var dataset = res.rows.length;
-		            if(dataset<1)
-					//if (res.rows.item(0).cnt < 1)
-					{
-						console.log('MC_UseOk:false');
-						//Change path
-						$location.path('/scroll'); 
-						$route.reload();
-						//callback(true,"MC_UseOk_false");
-						//return false;
-					}
-					else
-					{
-						console.log('MC_UseOk:true');
-						callback(null,"MC_UseOk_true");
-						return true;
-					}
-						
-				});//fin select
-			})($location);
-		}); //fin db.transaction
-	}
-	else
-		//ok
-		callback(null,"no_MC_UseOk");
-}
-
-testi = 0;
-function test(callback,value){
-//var test = function(tx,value){
-	testi = testi + 1;
-	console.log(testi);
-	console.log(value);
-	console.log("fin?");
-	callback(null, 'test');
-}
-
 function getQuestionsByGroupe($scope,current,callback)
 {
 	db.transaction(function(tx) {
@@ -273,6 +183,8 @@ function getQuestionsByGroupe($scope,current,callback)
 					var groupes = {}
 					var next = 0;
 					$.each(res2.rows, function(key, groupe){
+						groupe.config = getQuestionConfig(groupe['qhelp-question_config'])
+						groupe.reponses = JSON.parse(decodeURI(groupe.answers));
 						groupes[key] = groupe;
 						next = parseInt(groupe.id) + 1;
 					});

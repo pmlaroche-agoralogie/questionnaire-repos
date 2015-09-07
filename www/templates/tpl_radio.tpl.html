@@ -1,12 +1,15 @@
-<!--<label ng-repeat="reponse in groupe.reponses">
-      <input type="radio" name="radioSet"  ng-value="reponse.id" />{{reponse.title}}
-</label>-->
-RADIO
-{{groupe.qid}}
+<div ng-bind-html="groupe.question"></div>
+<div ng-repeat="(keyrep, valuerep) in groupe.reponses"> 
+		<input type="radio" name="{{qid}}" value="{{keyrep}}" id="{{keyrep}}"><label for="{{keyrep}}" ng-bind-html="valuerep"></label>
+</div>
+	
+
 
 
 <!--  {{groupe.title}}
 <reponse ng-repeat="reponse in groupe.reponses" data="reponse">
 	  	{{reponse.title}}
 </reponse>
+RADIO
+{{groupe.qid}}
 -->
