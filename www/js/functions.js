@@ -197,6 +197,8 @@ function getQuestionsByGroupe($scope,current,callback)
 				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {		
 					if (debug)
 						alert('getQuestionsByGroupe2');
+					if (debug) alert('scope getQuestionsByGroupe2 deb');
+					if (debug) alert(JSON.stringify($scope.quiz));
 					var groupes = {}
 					var next = 0;
 					$.each(res2.rows, function(key, groupe){
@@ -205,6 +207,7 @@ function getQuestionsByGroupe($scope,current,callback)
 						groupes[key] = groupe;
 						next = parseInt(groupe.id) + 1;
 					});
+					//$scope.quiz = {};
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
