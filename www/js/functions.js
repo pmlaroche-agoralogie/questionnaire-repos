@@ -203,7 +203,7 @@ function getQuestionsByGroupe($scope,current,callback)
 					var next = 0;
 					if (debug)
 						alert(JSON.stringify(res2.rows));
-					$.each(res2.rows, function(key, groupe){
+					/*$.each(res2.rows.item, function(key, groupe){
 						if (debug)
 							alert('each deb');
 						if (debug)
@@ -222,7 +222,15 @@ function getQuestionsByGroupe($scope,current,callback)
 						next = parseInt(groupe.id) + 1;
 						if (debug)
 							alert('each fin');
-					});
+					});*/
+					
+					for (var i = 0; i < res2.rows.length; i++)
+		            {
+						groupe = res2.rows.item(i);
+						groupe.config = getQuestionConfig(res2.rows.item(i)['qhelp-question_config']);
+						groupe.reponses = JSON.parse(decodeURI(res2.rows.item(i).answers));
+						groupes[i] = groupe;
+		            }
 					//$scope.quiz = {};
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
