@@ -69,7 +69,8 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 			              function(callback){ saveReponses(quiz,callback);},
 		               	],
 		   				 
-	               		function(err, results ){		 		
+	               		function(err, results ){		 	
+			 				$( "input" ).prop( "checked", false );
 			 				$scope.quiz.actif = false;
 			 				$scope.$apply(function(){return true;});
 	   			 			console.log(results);
@@ -89,7 +90,8 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  				              function(callback){ saveReponses(quiz,callback);},
  			               	],
  			   				 
-		               		function(err, results ){		 		
+		               		function(err, results ){		 	
+ 								$( "input" ).prop( "checked", false );
  								displayQuestionTemplate($scope,$scope.quiz.next);
 		   			 			console.log(results);
 		   		         }

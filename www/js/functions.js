@@ -231,9 +231,12 @@ function displayQuestionTemplate($scope,current){
 	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
 	],
 		 
-		function(err, results ){		
+		function(err, results ){	
+		 	
 			console.log(results);
 			if (debug) alert(JSON.stringify($scope.quiz));
+			var timestamp = Math.round(new Date().getTime() / 1000);
+		 	$scope.quiz.tsdeb = timestamp;
 			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
 			console.log($scope.quiz);
 	}
@@ -250,7 +253,9 @@ function displayQuestionID($scope,current){
 		 
 		function(err, results ){		
 		 
+		 	var timestamp = Math.round(new Date().getTime() / 1000);
 		 	$scope.quiz.actif = 'getID';
+		 	$scope.quiz.tsdeb = timestamp;
 			console.log(results);
 			if (debug) alert(JSON.stringify($scope.quiz));
 			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
@@ -264,6 +269,8 @@ function saveReponses(quiz,callback)
 {
 	console.log('save');
 	console.log(quiz);
+	var timestamp = Math.round(new Date().getTime() / 1000);
+ 	quiz.tsfin = timestamp;
 	
 
 	db.transaction(function(tx) {
@@ -277,55 +284,37 @@ function saveReponses(quiz,callback)
 			console.log('save groupe ???????????');
 			console.log(groupe);
 			console.log('save groupe !!!!!!!!!!');
+			reponse = "";
 			if (groupe.config.tpl == 'texte')
 			{
 				console.log('save texte');
 				//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, "tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
 				
-				var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
-				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
-						'VALUES('+
-						'"'+quiz.uuid+'",'+ //uuid
-						'"'+groupe.sid+'",'+ // sid
-						'"'+groupe.gid+'",'+ //gid
-						'"'+groupe.qid+'",'+ //qid
-						'"'+reponse+'",'+ //reponse
-						''+parseInt('12')+','+ //tsreponse_deb
-						''+parseInt('12')+''+ //tsreponse_fin
-						');';
+				reponse = $('.question[monID="'+groupe.qid+'"] input').val();
+				
 			}
 			if (groupe.config.tpl == 'radio')
 			{
 				
 				console.log('save radio');
-				var reponse = $('.question[monID="'+groupe.qid+'"] input:checked').val();
-				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
-						'VALUES('+
-						'"'+quiz.uuid+'",'+ //uuid
-						'"'+groupe.sid+'",'+ // sid
-						'"'+groupe.gid+'",'+ //gid
-						'"'+groupe.qid+'",'+ //qid
-						'"'+reponse+'",'+ //reponse
-						''+parseInt('12')+','+ //tsreponse_deb
-						''+parseInt('12')+''+ //tsreponse_fin
-						');';
+				reponse = $('.question[monID="'+groupe.qid+'"] input:checked').val();
 			}
 			if (groupe.config.tpl == 'slider')
 			{
 				console.log('save slider');
-				var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
-				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
-						'VALUES('+
-						'"'+quiz.uuid+'",'+ //uuid
-						'"'+groupe.sid+'",'+ // sid
-						'"'+groupe.gid+'",'+ //gid
-						'"'+groupe.qid+'",'+ //qid
-						'"'+reponse+'",'+ //reponse
-						''+parseInt('12')+','+ //tsreponse_deb
-						''+parseInt('12')+''+ //tsreponse_fin
-						');';
+				reponse = $('.question[monID="'+groupe.qid+'"] input').val();
 			}
-			$( "input" ).prop( "checked", false );
+			sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
+			'VALUES('+
+			'"'+quiz.uuid+'",'+ //uuid
+			'"'+groupe.sid+'",'+ // sid
+			'"'+groupe.gid+'",'+ //gid
+			'"'+groupe.qid+'",'+ //qid
+			'"'+reponse+'",'+ //reponse
+			''+quiz.tsdeb+','+ //tsreponse_deb
+			''+quiz.tsfin+''+ //tsreponse_fin
+			');';
+			
 			console.log(sql);
 			if (sql != "")
 			{
