@@ -1,3 +1,4 @@
+'328828';'';'537';'1548';'Quel est l'identifiant du patient&nbsp;:';'N';'#tpl:texte#frq:x#';'{}'
 '328828';'';'523';'1416';'Durant cette période, j’ai pensé à:<br>Des évènements passés me concernant (<i>des souvenirs</i>)';'N';'#tpl:radio#frq:x#';'{"1":"Jamais","2":"Rarement","3":"Souvent","4":"Très souvent"}'
 '328828';'';'523';'1422';'Des événements à venir me concernant (<i>j’ai pensé à des choses que je dois faire dans le futur, proche ou non</i>)';'N';'#tpl:radio#frq:x#';'{"1":"Jamais","2":"Rarement","3":"Souvent","4":"Très souvent"}'
 '328828';'';'523';'1428';'Des évènements ne se situant ni dans mon passé, ni dans mon avenir ou étant complètement imaginaires (<i>des situations que j’ai inventées, que j’ai lues dans un roman ou vues dans un film</i>)';'N';'#tpl:radio#frq:x#';'{"1":"Jamais","2":"Rarement","3":"Souvent","4":"Très souvent"}'

@@ -39,7 +39,8 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 		alert('maindd');
 	
 	$scope.quiz = {};
-	$scope.quiz.actif = false;
+	$scope.quiz.actif = 'autre';
+	$scope.quiz.uuid = generateUUID();
 
 	 async.series([	
 	               		function(callback){ cordovaReady(callback);},
@@ -47,7 +48,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	               		
 	               		//creta table
 		               	function(callback){createTableQuestionnaires(callback);},
-		               	function(callback){createTableHoraires(callback);},
+		               	//function(callback){createTableHoraires(callback);},
 		               	function(callback){createTableReponses(callback);},
 		               	
 		               	//create db content
@@ -55,18 +56,27 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 
 	               		],
 	   				 
-	               		function(err, results ){		 					
+	               		function(err, results ){		 		
+		 					displayQuestionID($scope,1);
 	   			 			console.log(results);
 	   		         }
 	   		 );//fin  async.series
 	 
+	 $scope.goToStartQuiz = function(clickEvent){
+		 //save ID;
+		 quiz = $scope.quiz;
+		 saveReponses(quiz);
+		 $scope.quiz.actif = false;
+		};
+	 
 	 $scope.startQuiz = function(clickEvent){
- 			displayQuestionTemplate($scope,1);
+ 			displayQuestionTemplate($scope,2);
  			};
  			
  	$scope.nextQuiz = function(clickEvent){
  				//save
- 				console.log("save");
+ 				quiz = $scope.quiz;
+ 				saveReponses(quiz);
  				/*console.log($("input[name="+res.rows.item(current).qid+"]:checked").attr("value"));
  				rep = $("input[name="+res.rows.item(current).qid+"]:checked").attr("value");*/
  			//	var timestamp = Math.round(new Date().getTime() / 1000);
@@ -121,6 +131,9 @@ app.directive("groupe", function() {
 	        	if ($scope.groupe.config.tpl == "slider")
 		          //return myLocalized.partials + "tpl_radio.tpl.html";
 		        	return "templates/tpl_slide.tpl.html";
+	        	if ($scope.groupe.config.tpl == "texte")
+			          //return myLocalized.partials + "tpl_radio.tpl.html";
+			        	return "templates/tpl_text.tpl.html";
 	        }
 	      }
 	    }

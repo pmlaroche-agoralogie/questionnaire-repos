@@ -14,6 +14,7 @@
 	        </div>
 	        <div class="media-body">
 	            <h3 class="media-heading">Start Quiz</h3>
+	            
 	            <button class="btn btn-primary" ng-click="startQuiz($event)">Start</button>
 	        </div>
         </div>
@@ -26,6 +27,15 @@
 			</groupe>
 			<button class="btn btn-primary" ng-click="nextQuiz($event)">Next</button>
 	 	</div>
+	 	 <div ng-if="quiz.actif == 'getID'">
+	 	 	getID
+	 	 	<groupe ng-repeat="groupe in quiz.groupes" data="groupe">
+			  <!-- Include template dyn -->	
+			  toto
+			</groupe>
+		 	
+		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Go to Start</button>
+	 	 </div>
 	 	<div ng-if="quiz.actif == 'fin'">
 
 	       Fin

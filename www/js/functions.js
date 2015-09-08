@@ -75,7 +75,8 @@ function createTableReponses(callback)
 	db.transaction(function(tx) 
 	{  		
 		//tx.executeSql('DROP TABLE IF EXISTS "reponses"');
-		tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" INTEGER DEFAULT (0), "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse" INTEGER, "envoi" BOOLEAN not null default 0);');
+		//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" INTEGER DEFAULT (0), "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse" INTEGER, "envoi" BOOLEAN not null default 0);');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, "tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
 	},function(tx){callback(true,'createReponsesError')},function(tx){callback(null,'createReponsesSuccess')});
 }
 
@@ -197,33 +198,8 @@ function getQuestionsByGroupe($scope,current,callback)
 				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {		
 					if (debug)
 						alert('getQuestionsByGroupe2');
-					if (debug) alert('scope getQuestionsByGroupe2 deb');
-					if (debug) alert(JSON.stringify($scope.quiz));
 					var groupes = {};
 					var next = 0;
-					if (debug)
-						alert(JSON.stringify(res2.rows));
-					/*$.each(res2.rows.item, function(key, groupe){
-						if (debug)
-							alert('each deb');
-						if (debug)
-							alert(JSON.stringify(groupe));
-						if (debug)
-							alert(groupe['qhelp-question_config']);
-						groupe.config = getQuestionConfig(groupe['qhelp-question_config']);
-						if (debug)
-							alert('each 1');
-						groupe.reponses = JSON.parse(decodeURI(groupe.answers));
-						if (debug)
-							alert('each 2');
-						groupes[key] = groupe;
-						if (debug)
-							alert('each 3');
-						next = parseInt(groupe.id) + 1;
-						if (debug)
-							alert('each fin');
-					});*/
-					
 					for (var i = 0; i < res2.rows.length; i++)
 		            {
 						groupe = res2.rows.item(i);
@@ -232,12 +208,9 @@ function getQuestionsByGroupe($scope,current,callback)
 						groupes[i] = groupe;
 						next = parseInt(res2.rows.item(i).id) + 1;
 		            }
-					//$scope.quiz = {};
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
-					if (debug) alert('scope getQuestionsByGroupe2');
-					if (debug) alert(JSON.stringify($scope.quiz));
 					callback(null,'ok');
 					
 				}); //SELECT GROUPE
@@ -255,19 +228,82 @@ function displayQuestionTemplate($scope,current){
 	if (debug)
 		alert(current);
 	
-	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);if (debug) alert("async");if (debug) alert(JSON.stringify($scope.quiz));}                            
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
 	],
 		 
 		function(err, results ){		
-		 	//$scope.quiz.actif = true;
-		 if (debug)
-				alert('getQuestionsByGroupeResult');
 			console.log(results);
 			if (debug) alert(JSON.stringify($scope.quiz));
 			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
 			console.log($scope.quiz);
 	}
 	);//fin  async.series
+
+}
+
+
+function displayQuestionID($scope,current){
+
+	
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
+	],
+		 
+		function(err, results ){		
+		 
+		 	$scope.quiz.actif = 'getID';
+			console.log(results);
+			if (debug) alert(JSON.stringify($scope.quiz));
+			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
+			console.log($scope.quiz);
+	}
+	);//fin  async.series
+
+}
+
+function saveReponses(quiz)
+{
+	console.log('save');
+	console.log(quiz);
+	var sql = "";
+
+	$.each( quiz.groupes, function( key, groupe ) {
+		//console.log('save ' + this.attr('monID'));
+		console.log('save groupe ???????????');
+		console.log(groupe);
+		console.log('save groupe !!!!!!!!!!');
+		if (groupe.config.tpl == 'texte')
+		{
+			console.log('save texte');
+			//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, "tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
+			
+			var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
+			sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
+					'VALUES('+
+					'"'+quiz.uuid+'",'+ //uuid
+					'"'+groupe.sid+'",'+ // sid
+					'"'+groupe.gid+'",'+ //gid
+					'"'+groupe.qid+'",'+ //qid
+					'"'+reponse+'",'+ //reponse
+					''+parseInt('12')+','+ //tsreponse_deb
+					''+parseInt('12')+''+ //tsreponse_fin
+					');';
+		}
+		if (groupe.config.tpl == 'radio')
+		{
+			console.log('save radio');
+		}
+		if (groupe.config.tpl == 'slider')
+		{
+			console.log('save slider');
+		}
+		console.log(sql);
+		db.transaction(function(tx) {
+			tx.executeSql(sql,[], successHandler, errorHandler);// requête
+			});// DB TRANSACTION
+		
+		
+	});
+	
 
 }
 
@@ -308,3 +344,14 @@ function getQuestionConfig(qhelp)
 	}
 	return config;
 }
+
+//UUID
+function generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+};

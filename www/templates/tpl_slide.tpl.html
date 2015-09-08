@@ -1,8 +1,10 @@
 <!--<label ng-repeat="reponse in groupe.reponses">
       <input type="radio" name="radioSet"  ng-value="reponse.id" />{{reponse.title}}
 </label>-->
-<div ng-bind-html="groupe.question"></div>
-<input type="range" value="50" max="100" min="0" >
+<div class="question" monID="{{groupe.qid}}">
+	<div ng-bind-html="groupe.question"></div>
+	<input type="range" value="50" max="100" min="0" >
+</div>
 
 
 
