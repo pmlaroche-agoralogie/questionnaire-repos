@@ -213,12 +213,13 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.actif = true;
 					if (debug) alert('scope getQuestionsByGroupe2');
 					if (debug) alert(JSON.stringify($scope.quiz));
+					callback(null,'ok');
 					
 				}); //SELECT GROUPE
 			}
 		});//select
-	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
-	//});//DB transaction
+	//},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
+	});//DB transaction
 	
 }
 
