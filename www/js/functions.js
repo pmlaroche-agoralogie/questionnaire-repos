@@ -175,8 +175,12 @@ function insertQuestionnaire(res,callback){
 
 function getQuestionsByGroupe($scope,current,callback)
 {
+	if (debug)
+		alert('getQuestionsByGroupe');
 	db.transaction(function(tx) {
 		tx.executeSql('SELECT * FROM "questionnaires" WHERE id = '+current+';', [], function(tx, res) {
+			if (debug)
+				alert('getQuestionsByGroupe1');
 			console.log('question');
 			//console.log(res);
 			//if (res.rows.item(0).cnt < 1)
@@ -188,7 +192,9 @@ function getQuestionsByGroupe($scope,current,callback)
 			else
 				
 			{
-				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {			
+				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {		
+					if (debug)
+						alert('getQuestionsByGroupe2');
 					var groupes = {}
 					var next = 0;
 					$.each(res2.rows, function(key, groupe){
@@ -221,6 +227,8 @@ function displayQuestionTemplate($scope,current){
 		 
 		function(err, results ){		
 		 	//$scope.quiz.actif = true;
+		 if (debug)
+				alert('getQuestionsByGroupeResult');
 			console.log(results);
 			$scope.$apply(function(){return true});
 			console.log($scope.quiz);
