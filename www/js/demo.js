@@ -65,8 +65,17 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	 $scope.goToStartQuiz = function(clickEvent){
 		 //save ID;
 		 quiz = $scope.quiz;
-		 saveReponses(quiz);
-		 $scope.quiz.actif = false;
+		 async.series([	
+			              function(callback){ saveReponses(quiz,callback);},
+		               	],
+		   				 
+	               		function(err, results ){		 		
+			 				$scope.quiz.actif = false;
+			 				$scope.$apply(function(){return true;});
+	   			 			console.log(results);
+	   		         }
+	   		 );//fin  async.series
+		 
 		};
 	 
 	 $scope.startQuiz = function(clickEvent){
@@ -76,7 +85,15 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  	$scope.nextQuiz = function(clickEvent){
  				//save
  				quiz = $scope.quiz;
- 				saveReponses(quiz);
+ 				async.series([	
+ 				              function(callback){ saveReponses(quiz,callback);},
+ 			               	],
+ 			   				 
+		               		function(err, results ){		 		
+ 								displayQuestionTemplate($scope,$scope.quiz.next);
+		   			 			console.log(results);
+		   		         }
+		   		 );//fin  async.series
  				/*console.log($("input[name="+res.rows.item(current).qid+"]:checked").attr("value"));
  				rep = $("input[name="+res.rows.item(current).qid+"]:checked").attr("value");*/
  			//	var timestamp = Math.round(new Date().getTime() / 1000);
@@ -87,7 +104,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  						});//Transaction*/
 
  				
- 					displayQuestionTemplate($scope,$scope.quiz.next);
+ 					
 
  			}
 	 

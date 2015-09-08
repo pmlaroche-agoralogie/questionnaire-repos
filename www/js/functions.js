@@ -260,49 +260,87 @@ function displayQuestionID($scope,current){
 
 }
 
-function saveReponses(quiz)
+function saveReponses(quiz,callback)
 {
 	console.log('save');
 	console.log(quiz);
-	var sql = "";
+	
 
-	$.each( quiz.groupes, function( key, groupe ) {
-		//console.log('save ' + this.attr('monID'));
-		console.log('save groupe ???????????');
-		console.log(groupe);
-		console.log('save groupe !!!!!!!!!!');
-		if (groupe.config.tpl == 'texte')
-		{
-			console.log('save texte');
-			//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, "tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
+	db.transaction(function(tx) {
+		console.log('quiz????');
+		console.log(quiz);
+		$.each( quiz.groupes, function( key, groupe ) {
+			console.log(quiz);
+			console.log(groupe);
+			var sql = "";
+			//console.log('save ' + this.attr('monID'));
+			console.log('save groupe ???????????');
+			console.log(groupe);
+			console.log('save groupe !!!!!!!!!!');
+			if (groupe.config.tpl == 'texte')
+			{
+				console.log('save texte');
+				//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , "idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, "tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
+				
+				var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
+				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
+						'VALUES('+
+						'"'+quiz.uuid+'",'+ //uuid
+						'"'+groupe.sid+'",'+ // sid
+						'"'+groupe.gid+'",'+ //gid
+						'"'+groupe.qid+'",'+ //qid
+						'"'+reponse+'",'+ //reponse
+						''+parseInt('12')+','+ //tsreponse_deb
+						''+parseInt('12')+''+ //tsreponse_fin
+						');';
+			}
+			if (groupe.config.tpl == 'radio')
+			{
+				
+				console.log('save radio');
+				var reponse = $('.question[monID="'+groupe.qid+'"] input:checked').val();
+				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
+						'VALUES('+
+						'"'+quiz.uuid+'",'+ //uuid
+						'"'+groupe.sid+'",'+ // sid
+						'"'+groupe.gid+'",'+ //gid
+						'"'+groupe.qid+'",'+ //qid
+						'"'+reponse+'",'+ //reponse
+						''+parseInt('12')+','+ //tsreponse_deb
+						''+parseInt('12')+''+ //tsreponse_fin
+						');';
+			}
+			if (groupe.config.tpl == 'slider')
+			{
+				console.log('save slider');
+				var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
+				sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
+						'VALUES('+
+						'"'+quiz.uuid+'",'+ //uuid
+						'"'+groupe.sid+'",'+ // sid
+						'"'+groupe.gid+'",'+ //gid
+						'"'+groupe.qid+'",'+ //qid
+						'"'+reponse+'",'+ //reponse
+						''+parseInt('12')+','+ //tsreponse_deb
+						''+parseInt('12')+''+ //tsreponse_fin
+						');';
+			}
+			$( "input" ).prop( "checked", false );
+			console.log(sql);
+			if (sql != "")
+			{
+				
+					(function (reqSql) { 
+						tx.executeSql(reqSql,[], successHandler, errorHandler);// requête
+					})(sql);
 			
-			var reponse = $('.question[monID="'+groupe.qid+'"] input').val();
-			sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
-					'VALUES('+
-					'"'+quiz.uuid+'",'+ //uuid
-					'"'+groupe.sid+'",'+ // sid
-					'"'+groupe.gid+'",'+ //gid
-					'"'+groupe.qid+'",'+ //qid
-					'"'+reponse+'",'+ //reponse
-					''+parseInt('12')+','+ //tsreponse_deb
-					''+parseInt('12')+''+ //tsreponse_fin
-					');';
-		}
-		if (groupe.config.tpl == 'radio')
-		{
-			console.log('save radio');
-		}
-		if (groupe.config.tpl == 'slider')
-		{
-			console.log('save slider');
-		}
-		console.log(sql);
-		db.transaction(function(tx) {
-			tx.executeSql(sql,[], successHandler, errorHandler);// requête
-			});// DB TRANSACTION
+			}
+		});
+	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});// DB TRANSACTION
+	//});// DB TRANSACTION
 		
 		
-	});
+	
 	
 
 }
