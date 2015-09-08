@@ -327,11 +327,6 @@ function saveReponses(quiz,callback)
 		});
 	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});// DB TRANSACTION
 	//});// DB TRANSACTION
-		
-		
-	
-	
-
 }
 
 function getSurveyConfig()
