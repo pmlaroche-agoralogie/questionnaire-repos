@@ -201,6 +201,8 @@ function getQuestionsByGroupe($scope,current,callback)
 					if (debug) alert(JSON.stringify($scope.quiz));
 					var groupes = {};
 					var next = 0;
+					if (debug)
+						alert(JSON.stringify(res2.rows));
 					$.each(res2.rows, function(key, groupe){
 						if (debug)
 							alert('each deb');
