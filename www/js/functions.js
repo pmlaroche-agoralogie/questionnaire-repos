@@ -206,6 +206,7 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
+					if (debug) alert(JSON.stringify($scope.quiz));
 					
 				}); //SELECT GROUPE
 			}
@@ -222,7 +223,7 @@ function displayQuestionTemplate($scope,current){
 	if (debug)
 		alert(current);
 	
-	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);if (debug) alert("async");if (debug) alert(JSON.stringify($scope.quiz));}                            
 	],
 		 
 		function(err, results ){		
