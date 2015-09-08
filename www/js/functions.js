@@ -205,8 +205,14 @@ function getQuestionsByGroupe($scope,current,callback)
 						if (debug)
 							alert('each deb');
 						groupe.config = getQuestionConfig(groupe['qhelp-question_config']);
+						if (debug)
+							alert('each 1');
 						groupe.reponses = JSON.parse(decodeURI(groupe.answers));
+						if (debug)
+							alert('each 2');
 						groupes[key] = groupe;
+						if (debug)
+							alert('each 3');
 						next = parseInt(groupe.id) + 1;
 						if (debug)
 							alert('each fin');
@@ -217,13 +223,13 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.actif = true;
 					if (debug) alert('scope getQuestionsByGroupe2');
 					if (debug) alert(JSON.stringify($scope.quiz));
-					//callback(null,'ok');
+					callback(null,'ok');
 					
 				}); //SELECT GROUPE
 			}
 		});//select
-	},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
-	//});//DB transaction
+	//},function(tx){callback(true,'err')},function(tx){callback(null,'ok')});//DB transaction
+	});//DB transaction
 	
 }
 
