@@ -204,6 +204,8 @@ function getQuestionsByGroupe($scope,current,callback)
 					$.each(res2.rows, function(key, groupe){
 						if (debug)
 							alert('each deb');
+						if (debug)
+							alert(groupe['qhelp-question_config']);
 						groupe.config = getQuestionConfig(groupe['qhelp-question_config']);
 						if (debug)
 							alert('each 1');
