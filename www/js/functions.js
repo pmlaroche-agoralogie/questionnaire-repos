@@ -230,6 +230,7 @@ function getQuestionsByGroupe($scope,current,callback)
 						groupe.config = getQuestionConfig(res2.rows.item(i)['qhelp-question_config']);
 						groupe.reponses = JSON.parse(decodeURI(res2.rows.item(i).answers));
 						groupes[i] = groupe;
+						next = parseInt(res2.rows.item(i).id) + 1;
 		            }
 					//$scope.quiz = {};
 					$scope.quiz.groupes = groupes;
