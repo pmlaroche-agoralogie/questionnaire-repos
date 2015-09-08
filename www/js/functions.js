@@ -181,6 +181,8 @@ function getQuestionsByGroupe($scope,current,callback)
 		tx.executeSql('SELECT * FROM "questionnaires" WHERE id = '+current+';', [], function(tx, res) {
 			if (debug)
 				alert('getQuestionsByGroupe1');
+			if (debug) alert('scope getQuestionsByGroupe1');
+			if (debug) alert(JSON.stringify($scope.quiz));
 			console.log('question');
 			//console.log(res);
 			//if (res.rows.item(0).cnt < 1)
@@ -206,6 +208,7 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
+					if (debug) alert('scope getQuestionsByGroupe2');
 					if (debug) alert(JSON.stringify($scope.quiz));
 					
 				}); //SELECT GROUPE
