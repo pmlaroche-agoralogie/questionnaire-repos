@@ -230,7 +230,8 @@ function displayQuestionTemplate($scope,current){
 		 if (debug)
 				alert('getQuestionsByGroupeResult');
 			console.log(results);
-			$scope.$apply(function(){return true});
+			if (debug) alert(JSON.stringify($scope.quiz));
+			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
 			console.log($scope.quiz);
 	}
 	);//fin  async.series
