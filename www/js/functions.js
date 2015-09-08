@@ -199,13 +199,17 @@ function getQuestionsByGroupe($scope,current,callback)
 						alert('getQuestionsByGroupe2');
 					if (debug) alert('scope getQuestionsByGroupe2 deb');
 					if (debug) alert(JSON.stringify($scope.quiz));
-					var groupes = {}
+					var groupes = {};
 					var next = 0;
 					$.each(res2.rows, function(key, groupe){
+						if (debug)
+							alert('each deb');
 						groupe.config = getQuestionConfig(groupe['qhelp-question_config'])
 						groupe.reponses = JSON.parse(decodeURI(groupe.answers));
 						groupes[key] = groupe;
 						next = parseInt(groupe.id) + 1;
+						if (debug)
+							alert('each fin');
 					});
 					//$scope.quiz = {};
 					$scope.quiz.groupes = groupes;
