@@ -205,6 +205,8 @@ function getQuestionsByGroupe($scope,current,callback)
 						if (debug)
 							alert('each deb');
 						if (debug)
+							alert(JSON.stringify(groupe));
+						if (debug)
 							alert(groupe['qhelp-question_config']);
 						groupe.config = getQuestionConfig(groupe['qhelp-question_config']);
 						if (debug)
