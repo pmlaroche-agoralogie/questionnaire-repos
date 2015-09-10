@@ -431,7 +431,8 @@ function sendReponses() {
                         	if (debug)
                         		alert("essai envoi"+JSON.stringify(aReponses));
                         	xhr_object = new XMLHttpRequest(); 
-                        	xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/mobilerpc.php?answer="+JSON.stringify(aReponses), false); 
+                        	//xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/mobilerpc.php?answer="+JSON.stringify(aReponses), false); 
+                        	xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false); 
                         	xhr_object.send(null); 
                         	console.log("send rep");
                         	console.log(xhr_object);
