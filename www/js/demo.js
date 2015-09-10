@@ -109,6 +109,10 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  					
 
  			}
+ 	
+ 	$scope.sendQuiz = function(clickEvent){
+ 		sendReponses();
+ 	}
 	 
 		 
 /*  // User agent displayed in home page

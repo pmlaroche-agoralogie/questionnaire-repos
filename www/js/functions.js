@@ -377,3 +377,85 @@ function generateUUID() {
     });
     return uuid;
 };
+
+//ENVOI REPONSES
+function sendReponses() {
+	console.log('send');
+	var aReponses ={};
+	db.transaction(function(tx) {
+		//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , 
+		//"idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, 
+		//"tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
+		//tx.executeSql('SELECT * FROM "horaires" WHERE fait = 1;', [], function(tx, resHoraires) {
+
+		tx.executeSql('SELECT DISTINCT idhoraire FROM "reponses" WHERE envoi = 0', [], function(tx, resHoraires) {
+			
+			var dataset = resHoraires.rows.length;
+			console.log(resHoraires);
+            if(dataset>0)
+            {     	
+            	if (debug)
+            		alert("session à  envoi");
+            	for(var i=0;i<dataset;i++)
+                {
+            		//aReponses["sid"] = resHoraires.rows.item(i).uidquestionnaire;
+                	//aReponses["timestamp"] = resHoraires.rows.item(i).tsdebut;
+                	//saveResHorairesID = resHoraires.rows.item(i).id;
+                	
+            		tx.executeSql('SELECT * FROM "reponses" WHERE envoi = 0  AND idhoraire = "'+resHoraires.rows.item(i).idhoraire+'";', [], function(tx, res2) {
+            			var dataset2 = res2.rows.length;
+                        if(dataset2>0)
+                        {
+                        	saveResHorairesID = res2.rows.item(0).idhoraire;
+                        	aReponses["sid"] = res2.rows.item(0).sid;
+                        	//aReponses["timestamp"] = res2.rows.item(0).tsreponse;
+                        	aReponses["timestamp"] = res2.rows.item(0).tsreponse_deb;
+                        	if (debug)
+                        		alert("reponse à  envoi");
+                        	for(var j=0;j<dataset2;j++)
+                            {
+                        		//console.log(res2.rows.item(j).sid);
+                        		/*if (debug) 
+                        			alert(res2.rows.item(j).sid);*/
+                                var jsonkey = res2.rows.item(j).sid +"X"+res2.rows.item(j).gid+"X"+res2.rows.item(j).qid;
+                                //console.log(jsonkey);
+                        		//aReponses[jsonkey]=res2.rows.item(j).reponse;
+                                jsonTab = {};
+                                jsonTab['tsreponse_deb']=res2.rows.item(j).tsreponse_deb;
+                                jsonTab['tsreponse_fin']=res2.rows.item(j).tsreponse_fin;
+                                jsonTab['reponse']=res2.rows.item(j).reponse;
+                                aReponses[jsonkey]=JSON.stringify(jsonTab);
+                                //aReponses[jsonkey]=res2.rows.item(j).tsreponse_deb+","+res2.rows.item(j).tsreponse_fin+","+res2.rows.item(j).reponse;
+                            }
+                        	console.log("essai envoi"+JSON.stringify(aReponses));
+                        	if (debug)
+                        		alert("essai envoi"+JSON.stringify(aReponses));
+                        	xhr_object = new XMLHttpRequest(); 
+                        	xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/mobilerpc.php?answer="+JSON.stringify(aReponses), false); 
+                        	xhr_object.send(null); 
+                        	console.log("send rep");
+                        	console.log(xhr_object);
+                        	console.log(JSON.stringify(aReponses));
+                        	if(xhr_object.readyState == 4) 
+                        	{
+                        		console.log('Requête effectuée !');
+                        		//if(!isMobile) 
+                        		//	alert("Requête effectuée !"); 
+                        		if(xhr_object.response == "1") 
+                        			{
+                        			//tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
+                        			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
+                        			if (debug)
+                        				alert('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
+                        			}
+                        	}
+                        	
+                        }
+            			
+            		});
+            		
+                }
+            }
+		});
+	});
+};
