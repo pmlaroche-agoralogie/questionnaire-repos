@@ -9,33 +9,43 @@
       <div class="list-group-item list-group-item-home media">
         
          <div ng-if="quiz.actif === undefined || quiz.actif == false">
-	         <div>
-	          <i class="fa fa-gamepad feature-icon text-primary"></i>
-	        </div>
 	        <div class="media-body">
-	            <h3 class="media-heading">Start Quiz</h3>
+	            <p>L’objectif de ce questionnaire est d’identifier de quoi étaient faites vos pensées durant les 15 dernières minutes de l’examen 
+	            <strong>et seulement celles-ci</strong>, juste après que les consignes de fermer les yeux et de laisser aller vos pensées sans 
+	            vous endormir vous ont été données.</p>
+
+				<p>Ce n’est pas le contenu mais la forme de ces pensées que le questionnaire cherche à identifier. 
+				Ces pensées étaient elles faites d’images ? , de phrases ? Faisaient-elles référence à des événements passés, futurs…? Etc…</p>
+
+				<p>Il n’y a pas de bonnes ou de mauvaises réponses. Ces réponses ne révèlent aucun trait de caractères ou de personnalité. </p>
+
+				<p>Répondez le plus sincèrement possible.</p>
+
+				<p>Il n’est pas possible de revenir en arrière pour modifier une réponse. </p>
+
+
+				<p><strong>Cet exercice ne porte que sur les 15 mn durant lesquels vous étiez allongé les yeux fermés</strong></p>
 	            
-	            <button class="btn btn-primary" ng-click="startQuiz($event)">Start</button>
+	            <button class="btn btn-primary" ng-click="startQuiz($event)">Commencer</button>
 	        </div>
         </div>
        
         <div ng-if="quiz.actif == true">
-	         GROUPE
 	       <groupe ng-repeat="groupe in quiz.groupes" data="groupe">
 			  <!-- Include template dyn -->	
-			  toto
 			</groupe>
-			<button class="btn btn-primary" ng-click="nextQuiz($event)">Next</button>
+			<button class="btn btn-primary" ng-click="nextQuiz($event)">Suivant</button>
 	 	</div>
+	 	
 	 	 <div ng-if="quiz.actif == 'getID'">
-	 	 	getID
+
 	 	 	<groupe ng-repeat="groupe in quiz.groupes" data="groupe">
 			  <!-- Include template dyn -->	
-			  toto
 			</groupe>
-		 	
-		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Go to Start</button>
-		 	  <button class="btn btn-primary" ng-click="sendQuiz($event)">send reuslts</button>
+		 	<br/>
+		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Lancer le questionnaire</button>
+		 	  <hr/>
+		 	  <button class="btn btn-default" ng-click="sendQuiz($event)">Envoyer les résultats</button>
 	 	 </div>
 	 	<div ng-if="quiz.actif == 'fin'">
 

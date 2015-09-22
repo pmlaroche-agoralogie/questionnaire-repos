@@ -121,6 +121,7 @@ function createQuestionnairesSuccess(callback){
     	alert("dbquest");
 	//callback();
 };
+
 function createQuestionnairesError(tx, error) {
     console.log("createQuestionnairesError: " + error.message);
     if (debug)
@@ -233,6 +234,7 @@ function displayQuestionTemplate($scope,current){
 		 
 		function(err, results ){	
 		 	
+		 	console.log('RESULTS');
 			console.log(results);
 			if (debug) alert(JSON.stringify($scope.quiz));
 			var timestamp = Math.round(new Date().getTime() / 1000);
