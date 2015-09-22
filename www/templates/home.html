@@ -31,10 +31,12 @@
         </div>
        
         <div ng-if="quiz.actif == true">
-	       <groupe ng-repeat="groupe in quiz.groupes" data="groupe">
-			  <!-- Include template dyn -->	
-			</groupe>
-			<button class="btn btn-primary" ng-click="nextQuiz($event)">Suivant</button>
+       		 <form name="myQuiz" novalidate>
+		       <groupe ng-repeat="groupe in quiz.groupes" data="groupe">
+				  <!-- Include template dyn -->	
+				</groupe>
+				<button class="btn btn-primary" ng-click="nextQuiz($event)" ng-disabled="myQuiz.$invalid">Suivant</button>
+			</form>
 	 	</div>
 	 	
 	 	 <div ng-if="quiz.actif == 'getID'">
