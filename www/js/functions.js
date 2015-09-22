@@ -212,7 +212,10 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
+					console.log('QUIEEE');
+					console.log($scope.parent);
 					callback(null,'ok');
+
 					
 				}); //SELECT GROUPE
 			}
@@ -234,7 +237,6 @@ function displayQuestionTemplate($scope,current){
 		 
 		function(err, results ){	
 		 	
-		 	console.log('RESULTS');
 			console.log(results);
 			if (debug) alert(JSON.stringify($scope.quiz));
 			var timestamp = Math.round(new Date().getTime() / 1000);
