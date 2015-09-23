@@ -136,11 +136,14 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 app.directive("groupe", function() {
 	return {
 	    template: '<ng-include src="getTemplateUrl()"/>',
-	    //scope: {},
-    	//transclude: true,
-	    scope: {
+	    require: '^ngController', // controller parent
+	   /* scope: {},
+    	transclude: true,*/
+	   /* scope: {
 	      groupe: '=data'
-	    },
+	    },*/
+	    scope:true,
+	    //transclude: true,
 	    restrict: 'E',
 	  //  scope: true,
 	    controller: function($scope, $element, $attrs) {
@@ -153,6 +156,8 @@ app.directive("groupe", function() {
 	        	if ($scope.groupe.config.tpl == "radio")
 	          //return myLocalized.partials + "tpl_radio.tpl.html";
 	        		return "templates/tpl_radio.tpl.html";
+	        	if ($scope.groupe.config.tpl == "radio2")
+	  	        	return "templates/tpl_radio2.tpl.html";
 	        	if ($scope.groupe.config.tpl == "slider")
 		          //return myLocalized.partials + "tpl_radio.tpl.html";
 		        	return "templates/tpl_slide.tpl.html";
