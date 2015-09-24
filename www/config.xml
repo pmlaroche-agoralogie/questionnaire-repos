@@ -62,10 +62,10 @@
      <!--<gap:plugin name="com.and.cordova.plugin.local-notification" />-->
     
     <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <!--<gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />   
     <gap:plugin name="org.apache.cordova.dialogs" />
-    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.camera" />-->
     
     <!--
         <gap:plugin name="Example" />
