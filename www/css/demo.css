@@ -182,11 +182,12 @@ input.scrollable-header {
    overflow:hidden;
 }
 
-
+.sendQuiz {margin-top:100px;}
 .question input[type=radio]{display:none;}
 .question .answers {display:inline-block;padding:1% 2%;}
 .question .answers.col {display:block;}
 .question label.btn {display:inline-block;}
+input[type=text] {margin-top:20px;margin-bottom:30px;display:inline-block;width:auto;}
 input[type=range] {height:20px;}
 input[type=range] {
   -webkit-appearance: none;margin:20px 0;}

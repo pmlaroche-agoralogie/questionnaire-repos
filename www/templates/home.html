@@ -46,11 +46,13 @@
 		 	<br/>
 		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Lancer le questionnaire</button>
 		 	  <hr/>
-		 	  <button class="btn btn-default" ng-click="sendQuiz($event)">Envoyer les résultats</button>
+		 	  <button class="btn btn-default sendQuiz" ng-click="sendQuiz($event)">Envoyer les résultats</button>
 	 	 </div>
 	 	<div ng-if="quiz.actif == 'fin'">
 
-	       Fin
+	       <p>Merci pour votre participation à ce questionnaire.</p>
+	       <p>Veuillez maintenant rendre la tablette à un technicien.</p>
+			
 			<button class="btn btn-primary" ng-click="finQuiz($event)">Fin</button>
 	 	</div>
         

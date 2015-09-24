@@ -192,9 +192,9 @@ function getQuestionsByGroupe($scope,current,callback)
 			{
 				console.log('fin');
 				$scope.quiz.actif = 'fin';
+				callback(null,'fin');
 			}
-			else
-				
+			else	
 			{
 				tx.executeSql('SELECT * FROM "questionnaires" WHERE gid = "'+res.rows.item(0)['gid']+'";', [], function(tx, res2) {		
 					if (debug)
@@ -212,8 +212,6 @@ function getQuestionsByGroupe($scope,current,callback)
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
-					console.log('QUIEEE');
-					console.log($scope.parent);
 					callback(null,'ok');
 
 					
@@ -242,6 +240,7 @@ function displayQuestionTemplate($scope,current){
 			var timestamp = Math.round(new Date().getTime() / 1000);
 		 	$scope.quiz.tsdeb = timestamp;
 			$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
+
 			console.log($scope.quiz);
 	}
 	);//fin  async.series

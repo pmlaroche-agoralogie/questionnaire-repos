@@ -114,6 +114,11 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  		sendReponses();
  	}
  	
+ 	$scope.finQuiz = function(clickEvent){
+ 		displayQuestionID($scope,1);
+ 	}
+ 	
+
 
 	 
 		 
