@@ -159,8 +159,33 @@ input.scrollable-header {
   border-bottom: 3px solid #ccc;
 }
 
+
+.question {
+  opacity: 1;
+  transition: all linear 0.5s;
+  /*line-height: auto;*/
+  /*height: auto;*/
+  max-height: 500px;
+  border-bottom:#ccc dotted 1px;
+  margin-bottom:30px;
+}
+
+/*.question.ng-hide-add, .question.ng-hide-remove {
+  transition: all linear 0.5s;
+}*/
+
+.question.ng-hide {
+  opacity: 0;
+  display: block !important;
+  /*line-height: 0;*/
+   max-height: 0;
+   overflow:hidden;
+}
+
+
 .question input[type=radio]{display:none;}
 .question .answers {display:inline-block;padding:1% 2%;}
+.question .answers.col {display:block;}
 .question label.btn {display:inline-block;}
 input[type=range] {height:20px;}
 input[type=range] {
@@ -168,6 +193,10 @@ input[type=range] {
 input[type=range]:focus {
   outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
+.question .leftSlide {float:left}
+.question .rightSlide {float:right}
+.question .displayValue{font-weight:bold;margin-bottom:10px;border:#ccc solid 1px;border-radius:2px;padding: 5px 15px;display:inline-block;}
+
 /*curseur*/
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none ;

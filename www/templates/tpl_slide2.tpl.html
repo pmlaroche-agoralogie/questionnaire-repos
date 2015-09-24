@@ -3,9 +3,9 @@
 </label>-->
 <div class="question" monID="{{groupe.qid}}">
 	<div ng-bind-html="groupe.question"></div>
-	<input type="range" value="50" max="100" min="0" ng-model="groupe.reponse" ng-init="groupe.reponse = '50'">
-	<div class="leftSlide">0 %</div><div class="rightSlide">100 %</div>
-	<div class="displayValue">{{groupe.reponse}} %</div>
+	<input type="range" value="12" max="24" min="1" ng-model="groupe.reponse" ng-init="groupe.reponse = '12'">
+	<div class="leftSlide">1h</div><div class="rightSlide">24h</div>
+	<div class="displayValue">{{groupe.reponse}} h</div>
 </div>
 
 

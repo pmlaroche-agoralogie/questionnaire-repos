@@ -1,9 +1,9 @@
-<div class="question" monID="{{groupe.qid}}" ng-show="quiz.groupes[$parent.$parent.$index-1].reponse !=1">
+<div class="question" monID="{{groupe.qid}}" ng-show="quiz.groupes[$parent.$parent.$index-1].reponse ==4">
 
 	<div ng-bind-html="groupe.question"></div>
 	<div class="answers col" ng-repeat="(keyrep, valuerep) in groupe.reponses"> 
 			<input type="radio" name="{{groupe.qid}}" value="{{keyrep}}" id="{{groupe.qid}}_{{keyrep}}" ng-model="groupe.reponse" 
-				ng-required="quiz.groupes[$parent.$parent.$index-1].reponse !== '1'">
+				ng-required="quiz.groupes[$parent.$parent.$index-1].reponse == '4'">
 			<label class="btn btn-default" for="{{groupe.qid}}_{{keyrep}}" ng-bind-html="valuerep" ng-class="{'btn-info': groupe.reponse === keyrep}"></label>
 
 	</div>
