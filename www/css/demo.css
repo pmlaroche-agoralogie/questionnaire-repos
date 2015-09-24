@@ -165,7 +165,7 @@ input.scrollable-header {
   transition: all linear 0.5s;
   /*line-height: auto;*/
   /*height: auto;*/
-  max-height: 500px;
+  max-height: 1000px;
   border-bottom:#ccc dotted 1px;
   margin-bottom:30px;
 }
@@ -181,13 +181,15 @@ input.scrollable-header {
    max-height: 0;
    overflow:hidden;
 }
+
+.clear{clear:both;}
 body, .btn{font-size:25px;}
 .sendQuiz {margin-top:100px;}
 .question input[type=radio]{display:none;}
-.question .answers {display:inline-block;padding:1% 2%;}
+.question .answers {display:inline-block;padding: 10px 20px;}
 .question .answers.col {display:block;}
 .question label.btn {display:inline-block;}
-input[type=text] {margin-top:20px;margin-bottom:30px;display:inline-block;width:auto;}
+input[type=text] {margin-top:20px;margin-bottom:30px;display:inline-block;width:auto;font-size:25px;height:50px}
 input[type=range] {height:20px;}
 input[type=range] {
   -webkit-appearance: none;margin:20px 0;}
