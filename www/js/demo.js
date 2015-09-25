@@ -118,6 +118,11 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  		displayQuestionID($scope,1);
  	}
  	
+ 	$scope.someSelected = function (object) {
+ 		  return Object.keys(object).some(function (key) {
+ 		    return object[key];
+ 		  });
+ 		}
 
 
 	 

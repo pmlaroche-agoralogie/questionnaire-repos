@@ -185,7 +185,7 @@ input.scrollable-header {
 .clear{clear:both;}
 body, .btn{font-size:25px;}
 .sendQuiz {margin-top:100px;}
-.question input[type=radio]{display:none;}
+.question input[type=radio],.question input[type=checkbox]{display:none;}
 .question .answers {display:inline-block;padding: 10px 20px;}
 .question .answers.col {display:block;}
 .question label.btn {display:inline-block;}

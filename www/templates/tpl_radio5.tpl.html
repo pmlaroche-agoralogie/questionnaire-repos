@@ -1,16 +1,20 @@
 <div class="question" monID="{{groupe.qid}}" ng-show="(quiz.groupes[$parent.$parent.$index-1].reponse ==4)||(quiz.groupes[$parent.$parent.$index-1].reponse ==3)">
 
 	<div ng-bind-html="groupe.question"></div>
-	<div class="answers col" ng-repeat="(keyrep, valuerep) in groupe.reponses"> 
-			<input type="radio" name="{{groupe.qid}}" value="{{keyrep}}" id="{{groupe.qid}}_{{keyrep}}" ng-model="groupe.reponse" 
-				ng-required="(quiz.groupes[$parent.$parent.$index-1].reponse =='4')||(quiz.groupes[$parent.$parent.$index-1].reponse =='3')">
-			<label class="btn btn-default" for="{{groupe.qid}}_{{keyrep}}" ng-bind-html="valuerep" ng-class="{'btn-info': groupe.reponse === keyrep}"></label>
-
+	<div class="answers col" ng-repeat="(keyrep, valuerep) in groupe.reponses"> <!-- ng-model="reponse"  -->
+			<input type="checkbox" name="{{groupe.qid}}" value="{{keyrep}}" id="{{groupe.qid}}_{{keyrep}}_{{value}}" ng-model="groupe.formData.selectedAnswers[keyrep]"
+				ng-required="(!someSelected(groupe.formData.selectedAnswers) && ((quiz.groupes[$parent.$parent.$index-1].reponse =='4') || (quiz.groupes[$parent.$parent.$index-1].reponse =='3')) )">
+			<label class="btn btn-default" for="{{groupe.qid}}_{{keyrep}}_{{value}}" ng-bind-html="valuerep" ng-class="{'btn-info': groupe.formData.selectedAnswers[keyrep] === true}"></label>
 	</div>
-
 </div>
-
-
+<!--
+<input
+    type="checkbox"
+    value="{{val.id}}"
+    ng-model="formData.selectedFruits[val.id]"
+    ng-required="!someSelected(formData.selectedFruits)"
+>
+-->
 <!--  {{groupe.title}}
 <reponse ng-repeat="reponse in groupe.reponses" data="reponse">
 	  	{{reponse.title}}

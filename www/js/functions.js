@@ -296,16 +296,31 @@ function saveReponses(quiz,callback)
 				reponse = $('.question[monID="'+groupe.qid+'"] input').val();
 				
 			}
-			if (groupe.config.tpl == 'radio')
+			if ((groupe.config.tpl == 'radio') ||
+					 (groupe.config.tpl == 'radio2') ||
+					 (groupe.config.tpl == 'radio3') ||
+					 (groupe.config.tpl == 'radio4'))
 			{
 				
 				console.log('save radio');
 				reponse = $('.question[monID="'+groupe.qid+'"] input:checked').val();
 			}
-			if (groupe.config.tpl == 'slider')
+			if ((groupe.config.tpl == 'slider') ||
+					(groupe.config.tpl == 'slider2') ||
+					(groupe.config.tpl == 'slider3'))
 			{
 				console.log('save slider');
 				reponse = $('.question[monID="'+groupe.qid+'"] input').val();
+			}
+			if (groupe.config.tpl == 'radio5')
+			{
+				console.log('save checkbox');
+				reponseList = "";
+				$.each($('.question[monID="'+groupe.qid+'"] input:checked'), function(){   
+					console.log('check rep');
+					reponseList += ($(this).val())+',';
+	            });
+				reponse = reponseList.substring(0,reponseList.length-1);
 			}
 			sql ='INSERT INTO "reponses" (idhoraire,sid, gid,qid, reponse, tsreponse_deb,tsreponse_fin) '+
 			'VALUES('+
@@ -447,8 +462,8 @@ function sendReponses() {
                         		//	alert("Requête effectuée !"); 
                         		if(xhr_object.response == "1") 
                         			{
-                        			//tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
-                        			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
+                        			tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
+                        			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
                         			if (debug)
                         				alert('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
                         			}
