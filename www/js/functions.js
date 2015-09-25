@@ -247,11 +247,38 @@ function displayQuestionTemplate($scope,current){
 
 }
 
+function getCurrentId($scope,callback)
+{
+	$scope.userId = '';
+	xhr_object = new XMLHttpRequest(); 
+	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/prochainnumero.php", false);                 	
+	xhr_object.send(null); 
+	if(xhr_object.readyState == 4) 
+	{
+		console.log('Id récupéré !');
+		console.log(xhr_object.response);
+		$scope.userId = xhr_object.response;
+		callback(null,'idok');
+		//if(!isMobile) 
+		//	alert("Requête effectuée !"); 
+		/*if(xhr_object.response == "1") 
+			{
+			tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
+			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
+			if (debug)
+				alert('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
+			}*/
+	}
+	else
+		callback(null,'idko');
+}
+
 
 function displayQuestionID($scope,current){
 
 	
-	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}                            
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}       ,
+	                function(callback){getCurrentId($scope,callback);}
 	],
 		 
 		function(err, results ){		
@@ -450,7 +477,8 @@ function sendReponses() {
                         		alert("essai envoi"+JSON.stringify(aReponses));
                         	xhr_object = new XMLHttpRequest(); 
                         	//xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/mobilerpc.php?answer="+JSON.stringify(aReponses), false); 
-                        	xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false); 
+                        	//xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false); 
+                        	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false);                 	
                         	xhr_object.send(null); 
                         	console.log("send rep");
                         	console.log(xhr_object);
