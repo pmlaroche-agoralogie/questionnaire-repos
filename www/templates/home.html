@@ -50,7 +50,7 @@
 		 	  <div ng-if="encours == true">Requête en cours</div>
 		 	  <hr/>
 		 	  <button class="btn btn-default sendQuiz" ng-click="sendQuiz($event)">Envoyer les résultats</button>
-		 	  <div ng-if="encoursEnvoi == true">Requête en cours</div>
+		 	  <div>{{nbrep}} session(s) à envoyer</div>
 	 	 </div>
 	 	<div ng-if="quiz.actif == 'fin'">
 

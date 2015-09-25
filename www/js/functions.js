@@ -276,7 +276,8 @@ function getCurrentId($scope,callback)
 function displayQuestionID($scope,current){
 
 	
-	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);} 
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);} ,
+	 				function(callback){ nbReponsesToSend($scope,callback);} 
 	],
 		 
 		function(err, results ){		
@@ -421,9 +422,28 @@ function generateUUID() {
     return uuid;
 };
 
+//NB REPONSES A ENVOYER
+function nbReponsesToSend($scope,callback) {
+	
+	db.transaction(function(tx) {
+		//tx.executeSql('CREATE TABLE IF NOT EXISTS "reponses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT , 
+		//"idhoraire" VARCHAR, "sid" VARCHAR, "gid" VARCHAR, "qid" VARCHAR, "reponse" VARCHAR, "tsreponse_deb" INTEGER, 
+		//"tsreponse_fin" INTEGER, "envoi" BOOLEAN not null default 0);');
+		//tx.executeSql('SELECT * FROM "horaires" WHERE fait = 1;', [], function(tx, resHoraires) {
+
+		tx.executeSql('SELECT DISTINCT idhoraire FROM "reponses" WHERE envoi = 0', [], function(tx, resHoraires) {
+			console.log(resHoraires.rows.length);
+			$scope.nbrep = resHoraires.rows.length;
+			if (callback!== undefined)
+				callback(null,'nbreptosend');
+			else
+				$scope.$apply(function(){return true;});
+			});
+	});
+}
+
 //ENVOI REPONSES
 function sendReponses($scope) {
-	$scope.encoursEnvoi = true;
 	console.log('send');
 	var aReponses ={};
 	db.transaction(function(tx) {
@@ -485,8 +505,7 @@ function sendReponses($scope) {
                         	if(xhr_object.readyState == 4) 
                         	{
                         		console.log('Requête effectuée !');
-                        		$scope.encoursEnvoi = false;
-                        		$scope.$apply(function(){return true;});
+                        		nbReponsesToSend($scope);
                         		//if(!isMobile) 
                         		//	alert("Requête effectuée !"); 
                         		if(xhr_object.response == "1") 
