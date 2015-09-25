@@ -122,6 +122,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  		  return Object.keys(object).some(function (key) {
  		    return object[key];
  		  });
+ 		  //return false;
  		}
 
 

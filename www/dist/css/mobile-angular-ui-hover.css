@@ -98,9 +98,9 @@ a.bg-danger:hover {
 }
 
 .btn-default:hover {
-  color: #333333;
+/*  color: #333333;
   background-color: #e6e6e6;
-  border-color: #adadad;
+  border-color: #adadad;*/
 }
 
 .btn-default.disabled:hover,
