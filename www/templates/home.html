@@ -7,7 +7,7 @@
         </h1>
       </div>
       <div class="list-group-item list-group-item-home media">
-        
+       
          <div ng-if="quiz.actif === undefined || quiz.actif == false">
 	        <div class="media-body">
 	            <p>L’objectif de ce questionnaire est d’identifier de quoi étaient faites vos pensées durant les 15 dernières minutes de l’examen 
@@ -45,8 +45,12 @@
 			</groupe>
 		 	<br/>
 		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Lancer le questionnaire</button>
+		 	  <br/> <br/> <br/>
+		 	  <button class="btn btn-default" ng-click="synchID($event)">Synchroniser ID</button>
+		 	  <div ng-if="encours == true">Requête en cours</div>
 		 	  <hr/>
 		 	  <button class="btn btn-default sendQuiz" ng-click="sendQuiz($event)">Envoyer les résultats</button>
+		 	  <div ng-if="encoursEnvoi == true">Requête en cours</div>
 	 	 </div>
 	 	<div ng-if="quiz.actif == 'fin'">
 
@@ -54,6 +58,7 @@
 	       <p>Veuillez maintenant rendre la tablette à un technicien.</p>
 			
 			<button class="btn btn-primary" ng-click="finQuiz($event)">Fin</button>
+			
 	 	</div>
         
       </div>

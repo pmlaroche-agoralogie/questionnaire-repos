@@ -83,6 +83,22 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  			displayQuestionTemplate($scope,2);
  			};
  			
+ 	$scope.synchID = function(clickEvent){
+ 		async.series([	
+		              function(callback){ getCurrentId($scope,callback);},
+	               	],
+	   				 
+               		function(err, results ){		 	
+		 				/*$( "input" ).prop( "checked", false );
+		 				$scope.quiz.actif = false;*/
+ 						$('#userID').val($scope.userId);
+		 				$scope.$apply(function(){return true;});
+   			 			//console.log(results);
+   		         }
+   		 );//fin  async.series
+ 			//getCurrentId($scope)
+		};
+ 			
  	$scope.nextQuiz = function(clickEvent){
  				//save
  				quiz = $scope.quiz;
@@ -111,7 +127,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  			}
  	
  	$scope.sendQuiz = function(clickEvent){
- 		sendReponses();
+ 		sendReponses($scope);
  	}
  	
  	$scope.finQuiz = function(clickEvent){

@@ -250,35 +250,33 @@ function displayQuestionTemplate($scope,current){
 function getCurrentId($scope,callback)
 {
 	$scope.userId = '';
+	$scope.encours = true;
 	xhr_object = new XMLHttpRequest(); 
-	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/prochainnumero.php", false);                 	
+	xhr_object.timeout = 4000; // Set timeout to 4 seconds (4000 milliseconds)
+	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/prochainnumero.php", true);  
 	xhr_object.send(null); 
-	if(xhr_object.readyState == 4) 
-	{
-		console.log('Id récupéré !');
-		console.log(xhr_object.response);
-		$scope.userId = xhr_object.response;
-		callback(null,'idok');
-		//if(!isMobile) 
-		//	alert("Requête effectuée !"); 
-		/*if(xhr_object.response == "1") 
-			{
-			tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
-			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
-			if (debug)
-				alert('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
-			}*/
+	xhr_object.ontimeout = function () { console.log('timeout');$scope.encours = false;callback(null,'idko');}
+	xhr_object.onreadystatechange = function () {
+		if(xhr_object.readyState == 4) 
+		{
+			//setTimeout(function() {
+			console.log('Id récupéré !');
+			console.log(xhr_object);
+			console.log(xhr_object.response);
+			$scope.userId = xhr_object.response;
+			$scope.encours = false;
+			//$scope.$apply(function(){return true;  if (debug) alert('$scope.$apply');});
+			callback(null,'idok');
+			//},1250);
+		}
 	}
-	else
-		callback(null,'idko');
 }
 
 
 function displayQuestionID($scope,current){
 
 	
-	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);}       ,
-	                function(callback){getCurrentId($scope,callback);}
+	 async.series([ function(callback){ getQuestionsByGroupe($scope,current,callback);} 
 	],
 		 
 		function(err, results ){		
@@ -424,7 +422,8 @@ function generateUUID() {
 };
 
 //ENVOI REPONSES
-function sendReponses() {
+function sendReponses($scope) {
+	$scope.encoursEnvoi = true;
 	console.log('send');
 	var aReponses ={};
 	db.transaction(function(tx) {
@@ -486,12 +485,15 @@ function sendReponses() {
                         	if(xhr_object.readyState == 4) 
                         	{
                         		console.log('Requête effectuée !');
+                        		$scope.encoursEnvoi = false;
+                        		$scope.$apply(function(){return true;});
                         		//if(!isMobile) 
                         		//	alert("Requête effectuée !"); 
                         		if(xhr_object.response == "1") 
                         			{
                         			tx.executeSql('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
                         			console.log('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = "'+saveResHorairesID+'";');
+                        			
                         			if (debug)
                         				alert('UPDATE "reponses" SET envoi = 1 WHERE idhoraire = '+saveResHorairesID+';');
                         			}
@@ -502,6 +504,12 @@ function sendReponses() {
             		});
             		
                 }
+            }
+            else
+            {
+            	console.log('pas d envoi');
+            	$scope.encoursEnvoi = false;
+        		$scope.$apply(function(){return true;});
             }
 		});
 	});

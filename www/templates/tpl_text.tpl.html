@@ -1,7 +1,8 @@
 <div class="question" monID="{{groupe.qid}}">
 	<div ng-bind-html="groupe.question"></div>
-	<input type="text" name="{{groupe.qid}}"  class="form-control ng-pristine ng-valid needsclick ng-valid-email ng-touched" 
-		ng-model="mytext" ng-init="mytext = userId">
+	<input id ="userID" type="text" name="{{groupe.qid}}"  class="form-control ng-pristine ng-valid needsclick ng-valid-email ng-touched" 
+		ng-model="mytext">
+		{{timeout}}
 </div>
 
 	
