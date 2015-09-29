@@ -32,7 +32,7 @@ app.config(function($routeProvider) {
 
 });
 
-app.controller('MainController', function(cordovaReady,$rootScope, $scope,$location,$route,$sanitize){
+app.controller('MainController', function(cordovaReady,$rootScope, $scope,$location,$route,$sanitize,$sce){
 	
 	console.log('main');
 	if (debug)
@@ -65,6 +65,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 	 $scope.goToStartQuiz = function(clickEvent){
 		 //save ID;
 		 quiz = $scope.quiz;
+		 $scope.presQuiz = 1;
 		 async.series([	
 			              function(callback){ saveReponses(quiz,callback);},
 		               	],
@@ -79,6 +80,14 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
 		 
 		};
 	 
+		$scope.toTrustedHTML = function( html ){
+		    return $sce.trustAsHtml( html );
+		}
+		
+	$scope.nextPresQuiz = function(){
+		$scope.presQuiz +=1;
+	}
+		
 	 $scope.startQuiz = function(clickEvent){
  			displayQuestionTemplate($scope,2);
  			};

@@ -1,68 +1,82 @@
 <div class="scrollable">  
-  <div class="scrollable-content">
+	<div class="scrollable-content">
 
-    <div class="list-group text-center">
-      <div class="list-group-item list-group-item-home">
-        <h1>Questionnaire de repos</small>
-        </h1>
-      </div>
-      <div class="list-group-item list-group-item-home media">
-       
-         <div ng-if="quiz.actif === undefined || quiz.actif == false">
-	        <div class="media-body">
-	            <p>L’objectif de ce questionnaire est d’identifier de quoi étaient faites vos pensées durant les 15 dernières minutes de l’examen 
-	            <strong>et seulement celles-ci</strong>, juste après que les consignes de fermer les yeux et de laisser aller vos pensées sans 
-	            vous endormir vous ont été données.</p>
-
-				<p>Ce n’est pas le contenu mais la forme de ces pensées que le questionnaire cherche à identifier. 
-				Ces pensées étaient elles faites d’images ? , de phrases ? Faisaient-elles référence à des événements passés, futurs…? Etc…</p>
-
-				<p>Il n’y a pas de bonnes ou de mauvaises réponses. Ces réponses ne révèlent aucun trait de caractères ou de personnalité. </p>
-
-				<p>Répondez le plus sincèrement possible.</p>
-
-				<p>Il n’est pas possible de revenir en arrière pour modifier une réponse. </p>
-
-
-				<p><strong>Cet exercice ne porte que sur les 15 mn durant lesquels vous étiez allongé les yeux fermés</strong></p>
-	            
-	            <button class="btn btn-primary" ng-click="startQuiz($event)">Commencer</button>
-	        </div>
-        </div>
-       
-        <div ng-if="quiz.actif == true">
-       		 <form name="myQuiz" novalidate>
-		       <groupe ng-repeat="groupe in quiz.groupes" data="groupe">
-				  <!-- Include template dyn -->	
-				</groupe>
-				<button class="btn btn-primary" ng-click="nextQuiz($event)" ng-disabled="myQuiz.$invalid">Suivant</button>
-			</form>
-	 	</div>
-	 	
-	 	 <div ng-if="quiz.actif == 'getID'">
-	 	 	<groupe ng-repeat="groupe in quiz.groupes"  >
-			  <!-- Include template dyn -->	
-			</groupe>
-		 	<br/>
-		 	  <button class="btn btn-primary" ng-click="goToStartQuiz($event)">Lancer le questionnaire</button>
-		 	  <br/> <br/> <br/>
-		 	  <button class="btn btn-default" ng-click="synchID($event)">Synchroniser ID</button>
-		 	  <div ng-if="encours == true">Requête en cours</div>
-		 	  <hr/>
-		 	  <button class="btn btn-default sendQuiz" ng-click="sendQuiz($event)">Envoyer les résultats</button>
-		 	  <div>{{nbrep}} session(s) à envoyer</div>
-	 	 </div>
-	 	<div ng-if="quiz.actif == 'fin'">
-
-	       <p>Merci pour votre participation à ce questionnaire.</p>
-	       <p>Veuillez maintenant rendre la tablette à un technicien.</p>
+	    <div class="list-group text-center">
+			<div ng-if="quiz.actif === undefined || quiz.actif == false">
+				<div class="list-group-item list-group-item-home list-group-color">
+					<h1>Questionnaire de repos</h1>
+				</div>
+				<div class="list-group-item list-group-item-home">
+		        	<div ng-if="presQuiz == 1">
+						<p  class="center">L’objectif de ce questionnaire est d’identifier de quoi étaient faites <span class="red">vos pensées
+						durant les 15 dernières minutes de l’examen </span>
+						<strong>et seulement celles-ci</strong>, juste après que
+						les consignes de fermer les yeux et de laisser aller vos pensées sans
+			            vous endormir vous ont été données.</p>
+					</div>
+					<div ng-if="presQuiz == 2">
+						<p class="center">Ce n’est pas le contenu mais la forme de ces pensées que le questionnaire cherche à identifier. </p>
+						<p></p>
+						<p class="center">Ces pensées étaient elles faites d’images ? , de phrases ? Faisaient-elles référence à des événements passés, futurs…? Etc…</p>
+					</div>
+					<div ng-if="presQuiz == 3">
+						<p class="center">&bullet; Il n’y a pas de bonnes ou de mauvaises réponses. Ces réponses ne révèlent aucun trait de caractères ou de personnalité.<br/><br/>
+						&bullet; Répondez le plus sincèrement possible.<br/><br/>
+						&bullet; Il n’est pas possible de revenir en arrière pour modifier une réponse. <br/></p>
+					</div>
+	
+					<div ng-if="presQuiz == 4">
+						<p class="center"><strong>Souvenez vous : Cet exercice ne porte que sur les 15 mn durant lesquels vous étiez allongé les yeux fermés</strong></p><br/><br/>
+						<button class="btn btn-primary" ng-click="startQuiz($event)">Commencer</button>
+					</div>
+		            
+		            <div ng-if="presQuiz != 4">
+		            	<button class="btn btn-primary" ng-click="nextPresQuiz($event)">Suivant</button>
+		            </div>
+				</div>
+			</div>
+			<div ng-if="quiz.actif == true">
+				<form name="myQuiz" novalidate>
+					<groupe ng-repeat="groupe in quiz.groupes" data="groupe">
+						<!-- Include template dyn -->	
+					</groupe>
+					<button class="btn" ng-click="nextQuiz($event)" ng-disabled="myQuiz.$invalid" ng-class="{'btn-success': myQuiz.$valid,'btn-danger': myQuiz.$invalid}">Suivant</button>
+				</form>
+			</div>
+		 	
+			<div ng-if="quiz.actif == 'getID'">
+				<div class="list-group-item list-group-item-home list-group-color">
+					<h1>Questionnaire de repos</h1>
+				</div>
+				<div class="list-group-item list-group-item-home">
+					<groupe ng-repeat="groupe in quiz.groupes"  >
+						<!-- Include template dyn -->	
+					</groupe>
+					<br/>
+					<button class="btn btn-primary" ng-click="goToStartQuiz($event)">Lancer le questionnaire</button>
+					<br/> <br/> <br/>
+					<button class="btn btn-default" ng-click="synchID($event)">Synchroniser ID</button>
+					<div ng-if="encours == true">Requête en cours</div>
+					<hr/>
+					<button class="btn btn-default sendQuiz" ng-click="sendQuiz($event)">Envoyer les résultats</button>
+					<div>{{nbrep}} session(s) à envoyer</div>
+				</div>
+			</div>
+			<div ng-if="quiz.actif == 'fin'">
 			
-			<button class="btn btn-primary" ng-click="finQuiz($event)">Fin</button>
-			
-	 	</div>
+				<div class="list-group-item list-group-item-home list-group-color">
+					<h1>Questionnaire de repos</h1>
+				</div>
+				<div class="list-group-item list-group-item-home">
+		
+					<p>Merci pour votre participation à ce questionnaire.</p>
+					<p>Veuillez maintenant rendre la tablette à un technicien.</p>
+						
+					<button class="btn btn-primary" ng-click="finQuiz($event)">Fin</button>
+				</div>
+					
+			</div>
         
-      </div>
-    </div>
-
-  </div>
+		</div>
+	</div>
 </div>

@@ -208,10 +208,12 @@ function getQuestionsByGroupe($scope,current,callback)
 						groupe.reponses = JSON.parse(decodeURI(res2.rows.item(i).answers));
 						groupes[i] = groupe;
 						next = parseInt(res2.rows.item(i).id) + 1;
+						
 		            }
 					$scope.quiz.groupes = groupes;
 					$scope.quiz.next = next;
 					$scope.quiz.actif = true;
+					
 					callback(null,'ok');
 
 					

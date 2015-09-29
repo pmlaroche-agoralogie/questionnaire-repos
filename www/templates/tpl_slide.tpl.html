@@ -3,7 +3,7 @@
 </label>-->
 <div class="question" monID="{{groupe.qid}}">
 	<div ng-bind-html="groupe.question"></div>
-	<input type="range" value="50" max="100" min="0" ng-model="groupe.reponse" ng-init="groupe.reponse = '50'">
+	<input type="range" value="0" max="100" min="0" ng-model="groupe.reponse" ng-init="groupe.reponse = '0'">
 	<div class="leftSlide">0 %</div><div class="rightSlide">100 %</div>
 	<div class="displayValue">{{groupe.reponse}} %</div>
 </div>
