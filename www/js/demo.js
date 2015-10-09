@@ -189,7 +189,7 @@ app.directive("groupe", function() {
 	        //switch template
 	        if ($scope.groupe.qtype == "N")
 	        {
-	        	if ($scope.groupe.config.tpl == "radio")
+	        	/*if ($scope.groupe.config.tpl == "radio")
 	          //return myLocalized.partials + "tpl_radio.tpl.html";
 	        		return "templates/tpl_radio.tpl.html";
 	        	if ($scope.groupe.config.tpl == "radio2")
@@ -199,7 +199,7 @@ app.directive("groupe", function() {
 	        	if ($scope.groupe.config.tpl == "radio4")
 	  	        	return "templates/tpl_radio4.tpl.html"; //col
 	        	if ($scope.groupe.config.tpl == "radio5")
-	  	        	return "templates/tpl_radio5.tpl.html"; //cond non col
+	  	        	return "templates/tpl_radio5.tpl.html"; //cond non col*/
 	        	if ($scope.groupe.config.tpl == "slider")
 		          //return myLocalized.partials + "tpl_radio.tpl.html";
 		        	return "templates/tpl_slide.tpl.html";
@@ -207,6 +207,26 @@ app.directive("groupe", function() {
 			        	return "templates/tpl_slide2.tpl.html";
 	        	if ($scope.groupe.config.tpl == "slider3")
 		        	return "templates/tpl_slide3.tpl.html";
+	        	/*if ($scope.groupe.config.tpl == "texte")
+			          //return myLocalized.partials + "tpl_radio.tpl.html";
+			        	return "templates/tpl_text.tpl.html";*/
+	        }
+	        if ($scope.groupe.qtype == "L")
+	        {
+	        	if ($scope.groupe.config.tpl == "radio")
+	  	          //return myLocalized.partials + "tpl_radio.tpl.html";
+	  	        		return "templates/tpl_radio.tpl.html";
+	  	        	if ($scope.groupe.config.tpl == "radio2")
+	  	  	        	return "templates/tpl_radio2.tpl.html"; //cond jamais col
+	  	        	if ($scope.groupe.config.tpl == "radio3")
+	  	  	        	return "templates/tpl_radio3.tpl.html"; //cond jamais ligne
+	  	        	if ($scope.groupe.config.tpl == "radio4")
+	  	  	        	return "templates/tpl_radio4.tpl.html"; //col
+	  	        	if ($scope.groupe.config.tpl == "radio5")
+	  	  	        	return "templates/tpl_radio5.tpl.html"; //cond non col
+	        }
+	        if ($scope.groupe.qtype == "T")
+	        {
 	        	if ($scope.groupe.config.tpl == "texte")
 			          //return myLocalized.partials + "tpl_radio.tpl.html";
 			        	return "templates/tpl_text.tpl.html";
