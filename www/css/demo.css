@@ -177,9 +177,11 @@ input.scrollable-header {
 .red{color:#ff3b30;}
 .list-group-color{background-color:#B3E0FF}
 .question .list-group-item{margin-bottom:20px;}
-.entete,.center{text-align:left;display:inline-block;width:950px;}
+.entete, .entete2,.center{text-align:left;display:inline-block;width:950px;}
 .entete{width:700px;}
+.entete2{width:950px;display:block;margin:0 auto;}
 .question img{width:250px}
+img.bis{width:500px;}
 hr.sep{clear:both;color:#B3E0FF;height:20px;background-color:#B3E0FF}
 
 .question.ng-hide {

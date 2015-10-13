@@ -8,25 +8,27 @@
 				</div>
 				<div class="list-group-item list-group-item-home">
 		        	<div ng-if="presQuiz == 1">
-						<p  class="center">L’objectif de ce questionnaire est d’identifier de quoi étaient faites <span class="red">vos pensées
-						durant les 15 dernières minutes de l’examen </span>
-						<strong>et seulement celles-ci</strong>, juste après que
+						<p  class="center">L’objectif de ce questionnaire est d’identifier de quoi étaient faites <span class="red">vos pensées durant 
+						les 15 dernières minutes de l’examen </span>
+						<strong>et seulement celles-ci</strong>.</p>
+						<p class="center">Cela correspond à la session qui suit juste 
 						les consignes de fermer les yeux et de laisser aller vos pensées sans
-			            vous endormir vous ont été données.</p>
+			            vous endormir.</p>
 					</div>
 					<div ng-if="presQuiz == 2">
 						<p class="center">Ce n’est pas le contenu mais la forme de ces pensées que le questionnaire cherche à identifier. </p>
 						<p></p>
-						<p class="center">Ces pensées étaient elles faites d’images ? , de phrases ? Faisaient-elles référence à des événements passés, futurs…? Etc…</p>
+						<p class="center">Ces pensées étaient elles faites d’images ? , de phrases ? Faisaient-elles référence à des événements passés, futurs…?</p>
 					</div>
 					<div ng-if="presQuiz == 3">
 						<p class="center">&bullet; Il n’y a pas de bonnes ou de mauvaises réponses. Ces réponses ne révèlent aucun trait de caractères ou de personnalité.<br/><br/>
-						&bullet; Répondez le plus sincèrement possible.<br/><br/>
+						&bullet; Nous vous demandons simplement de répondre le plus sincèrement possible.<br/><br/>
 						&bullet; Il n’est pas possible de revenir en arrière pour modifier une réponse. <br/></p>
 					</div>
 	
 					<div ng-if="presQuiz == 4">
-						<p class="center"><strong>Souvenez vous : Cet exercice ne porte que sur les 15 mn durant lesquels vous étiez allongé les yeux fermés</strong></p><br/><br/>
+						<p class="center"><strong>Souvenez vous : Cet exercice ne porte que sur la dernière session ou vous deviez laisser aller vos
+					pensées.</strong></p><br/><br/>
 						<button class="btn btn-primary" ng-click="startQuiz($event)">Commencer</button>
 					</div>
 		            
