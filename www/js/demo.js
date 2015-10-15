@@ -140,6 +140,7 @@ app.controller('MainController', function(cordovaReady,$rootScope, $scope,$locat
  	}
  	
  	$scope.finQuiz = function(clickEvent){
+ 		$scope.quiz.uuid = generateUUID();
  		displayQuestionID($scope,1);
  	}
  	
