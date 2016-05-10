@@ -255,7 +255,7 @@ function getCurrentId($scope,callback)
 	$scope.encours = true;
 	xhr_object = new XMLHttpRequest(); 
 	xhr_object.timeout = 4000; // Set timeout to 4 seconds (4000 milliseconds)
-	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/prochainnumero.php", true);  
+	xhr_object.open("GET", "http://resting.dgin.bor/mobile/prochainnumero.php", true);  
 	xhr_object.send(null); 
 	xhr_object.ontimeout = function () { console.log('timeout');$scope.encours = false;callback(null,'idko');}
 	xhr_object.onreadystatechange = function () {
@@ -500,7 +500,7 @@ function sendReponses($scope) {
                         	xhr_object = new XMLHttpRequest(); 
                         	//xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/mobilerpc.php?answer="+JSON.stringify(aReponses), false); 
                         	//xhr_object.open("GET", "http://mcp.ocd-dbs-france.org/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false); 
-                        	xhr_object.open("GET", "http://resting.agoralogie.fr/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false);                 	
+                        	xhr_object.open("GET", "http://resting.dgin.bor/mobile/restingrpc.php?answer="+JSON.stringify(aReponses), false);                 	
                         	xhr_object.send(null); 
                         	console.log("send rep");
                         	console.log(xhr_object);
